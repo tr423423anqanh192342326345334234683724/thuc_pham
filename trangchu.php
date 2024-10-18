@@ -10,24 +10,24 @@
             background-image: url('img/bg.jpg');
             background-size: cover;
             background-position: center;
-            height: 100vh; /* Đảm bảo chiều cao toàn màn hình */
+            height: 100vh;
             display: flex;
-            justify-content: center; /* Căn giữa theo chiều ngang */
-            align-items: center; /* Căn giữa theo chiều dọc */
-            margin: 0; /* Xóa margin mặc định */
+            justify-content: center; 
+            align-items: center; 
+            margin: 0; 
         }
 
         .search-form {
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.8); /* Nền trắng với độ trong suốt */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            border-radius: 10px; /* Bo tròn góc */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Tạo bóng cho form */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         img {
-            max-width: 200px; /* Giới hạn chiều rộng ảnh */
-            margin-top: 10px; /* Khoảng cách trên ảnh */
+            max-width: 200px;
+            margin-top: 10px;
         }
 
         .search-result {
