@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    echo "DIT CON DI ME THANG QUANG ANH"
+    
 </body>
 </html>
+<?php
+    echo "DIT CON DI ME THANG QUANG ANH";
+    echo "CAI LON MA MAY"
+?>
+
