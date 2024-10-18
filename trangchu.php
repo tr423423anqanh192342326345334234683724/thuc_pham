@@ -14,17 +14,14 @@
     </style>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="" method="post" style="text-align: center; margin-top: 100px;  margin-left: 500px; margin-right: 500px;" >
         <p>Thuốc luôn có, Đặt là giao</p>
         <input type="text" name="search" placeholder="Nhập tên thuốc" required>
         <button type="submit">Tìm kiếm</button>
         <form action="upload.php" method="post" enctype="multipart/form-data">
     
 </form>
-<label for="image">Chọn hình ảnh:</label>
-    <input type="file" name="image" id="image" required>
-    <button type="submit">Tải lên</button>
-    </form>
+
     
     <?php
 $severname = "localhost";
@@ -41,8 +38,6 @@ if (isset($_POST['search'])) {
     $search = $_POST['search'];
     $sql = "SELECT * FROM mat_hang WHERE ten_mat_hang LIKE '%$search%'";
     $result = mysqli_query($conn, $sql);
-
-    // Kiểm tra lỗi truy vấn
     if (!$result) {
         die("Lỗi truy vấn: " . mysqli_error($conn));
     }
@@ -55,21 +50,7 @@ if (isset($_POST['search'])) {
         echo "Không tìm thấy sản phẩm nào.";
     }
 }
-mysqli_close($conn);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $image = $_FILES['image']['tmp_name'];
-    $imageData = addslashes(file_get_contents($image));
 
-    $sql = "INSERT INTO images (image_data) VALUES ('$imageData')";
-    if (mysqli_query($conn, $sql)) {
-        echo "Hình ảnh đã được tải lên thành công!";
-    } else {
-        echo "Lỗi: " . mysqli_error($conn);
-    }
-}
-
-mysqli_close($conn);
-?>
 ?>
 
 </body>
