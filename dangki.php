@@ -60,53 +60,32 @@
     <div class="form-container">
         <h2>Đăng ký</h2>
         <?php
-        session_start(); // Khởi động session
-        $error = '';
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Lấy dữ liệu từ form và loại bỏ khoảng trắng
-            $phone = trim($_POST['phone']);
-            $email = trim($_POST['email']);
-            $username = trim($_POST['username']);
-            $address = trim($_POST['address']);
-            $password = trim($_POST['password']);
-            $confirm_password = trim($_POST['confirm_password']);
-
-            // Kiểm tra thông tin nhập vào
-            if (empty($phone) || empty($email) || empty($username) || empty($address) || empty($password) || empty($confirm_password)) {
-                $error = 'Vui lòng điền đầy đủ thông tin.';
-            } elseif (!is_numeric($phone) || strlen($phone) < 10) {
-                $error = 'Số điện thoại không hợp lệ.';
-            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $error = 'Email không hợp lệ.';
-            } elseif (strlen($password) < 6) {
-                $error = 'Mật khẩu phải có ít nhất 6 ký tự.';
-            } elseif ($password !== $confirm_password) {
-                $error = 'Mật khẩu xác nhận không khớp.';
-            } else {
-                // Xử lý đăng ký thành công
-                $_SESSION['phone'] = $phone;
-                $_SESSION['email'] = $email;
-                $_SESSION['username'] = $username;  
-                $_SESSION['address'] = $address;
-                // Lưu mật khẩu vào cơ sở dữ liệu (mã hóa mật khẩu trước khi lưu nếu cần)
-                // header('Location: dangkis2.php'); // Chuyển tới trang tiếp theo
-                echo '<p>Đăng ký thành công!</p>'; // Thông báo đăng ký thành công
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "thuc_pham_chuc_nang";
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+        $sql = "SELECT * FROM tai_khoan_khach_hang";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                if ($row["taikhoan"] == $_POST['taikhoan']) {
+                    $error = 'Tài khoản đã tồn tại.';
+                    break;
+                }
             }
         }
-
-        if ($error) {
-            echo '<p class="error">' . htmlspecialchars($error) . '</p>';
-        }
+        if(
+       
         ?>
         <form method="POST" action="">
-            <input type="text" name="phone" placeholder="Số điện thoại" required><br>
-            <input type="email" name="email" placeholder="Email" required><br>
-            <input type="text" name="username" placeholder="Tên tài khoản" required><br>
-            <input type="text" name="address" placeholder="Địa chỉ" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <input type="password" name="confirm_password" placeholder="Nhập lại Password" required><br>
-            <input type="submit" value="Đăng ký">
+           <input type="text" name="taikhoan" placeholder="Tài khoản" required><br>
+           <input type="password" name="matkhau" placeholder="Mật khẩu" required><br>
+           <input type="password" name="nhaplai" placeholder="Nhập lại mật khẩu" required><br>
+           <input type="submit" value="Đăng ký">
         </form>
         <a href="dangnhap.php" class="toggle-link">Đã có tài khoản? Đăng nhập</a>
     </div>

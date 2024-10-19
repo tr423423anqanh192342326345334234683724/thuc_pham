@@ -48,20 +48,24 @@
 </head>
 <body>
     <div class="container">
-    <div style="padding-left: 1220px;">
-                    <a href="dangki.php" style="text-decoration: none; color: black; ">
-                        <img src="user.png" alt="User" style="width: 40px; height: 40px; margin-left: 20px;">
-                        <button style="background-color: lightblue; border-radius: 50%; cursor: pointer;">Đăng kí</button>
-                    </a>
-                </div>
+    <div style="display: flex; justify-content: flex-end; gap: 20px;">
+        <a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
+            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
+            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng kí</button>
+        </a>
+        <a href="giohang.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
+            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
+            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Giỏ hàng</button>
+        </a>
+    </div>
         <header class="text-center py-4">
             <h1 class="display-4">Thực Phẩm Chức Năng Nhóm 8</h1>
         </header>   
         
-        <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="trangchu.php">
-                    <img src="logo.png" alt="Logo" style="width: 140px; height: auto;">
+                <a class="navbar-brand" href="trangchu.php" style="padding-top: 100px;">
+                    <img src="logo.png" alt="Logo" style="width: 200px; height: auto;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -129,7 +133,7 @@
         </nav>
         <br>
         <div style="background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-            <h2 style="text-align: center;" class="text-center mb-4">Sản Phẩm Nổi Bật</h2>
+            <h2 style="text-align: center;" class="text-center mb-4"><img src="banchay.png" alt="" style="width: 50px; height: 50px;">Sản Phẩm Nổi Bật</h2>
             <div class="product-list d-flex justify-content-center">
                 <div class="product-item mx-2">
                     <h3>Vitamin C</h3>
@@ -172,7 +176,7 @@
             document.getElementById("productDropdown").style.display = 'none';
         }
 
-        // Gắn sự kiện cho menu
+
         const dropdownToggle = document.getElementById("navbarDropdown");
         const dropdownMenu = document.getElementById("productDropdown");
 
@@ -182,13 +186,27 @@
             dropdownMenu.addEventListener("mouseenter", showDropdown);
             dropdownMenu.addEventListener("mouseleave", hideDropdown);
         }
+        
     </script>
+    <br>
+    <div >
+    <h1 ><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
     <div>
-        <h1 style="font-weight: bold; padding-left: 100px; font-size: 30px;">Góc Sức Khỏe</h1>
-        <div>
-            <img src="suckhoe.jpg" alt="" style="width: 100%; height: 300px;">
-            <p>Bệnh vòng lương có thể chữa được không? cách chữa vòng lưng</p>
-        </div>
+        <a href=""  ><div>
+            <img src="diung.jpg" alt="" style="width: 200px; height: 200px; margin-bottom: 10px;">
+            <h3 > Dị ứng là gì? cách đối phó với dị ứng </h3>
+        </div></a>
+        <a href="#" ><div  >
+            <img src="suckhoe.jpg" alt="" style="width: 200px; height: 200px; margin-bottom: 10px;">
+            <h3 >Sùi mào gà là gì? cách đối phó với sùi mào gà</h3>
+        </div></a>
+        <a  href="#"  ><div  >
+            <img src="vonglung.png" alt="" style="width: 400px; height: 400px;">
+            <h3 >Bệnh võng mạch có thể chữa được không? cách chữa võng lưng</h3>
+        </div></a>
+    </div>
+</div>
+
 
 
     </div>
