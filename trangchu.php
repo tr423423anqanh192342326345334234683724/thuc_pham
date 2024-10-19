@@ -150,6 +150,10 @@
                 <button class="btn btn-primary" type="submit">Tìm kiếm</button>
             </form>
         </div>
+       <div class="search-result">
+           <a href="dangnhap.php" class="btn btn-link">Đăng Nhập</a>
+           <a href="dangki.php" class="btn btn-link">Đăng Ký</a>
+       </div>
     </div>
 </body>
 </html>
