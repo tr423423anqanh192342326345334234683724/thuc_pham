@@ -7,7 +7,7 @@
     <title>Thực Phẩm Chức Năng Nhóm 8</title>
     <style>
         body {
-            background-image: url('back.jpg');
+            background-image: url('hihi.jpg');
             background-size: cover;
             background-position: center;
             min-height: 100vh;
@@ -16,7 +16,7 @@
             margin: 0;
         }
 
-        .search-form {
+        .search-form, .product-item {
             text-align: center;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
@@ -25,48 +25,24 @@
             margin-top: 20px;
         }
 
-        
-
-        img:hover {
-            transform: scale(1.1); /* Phóng to logo khi di chuột */
+        .product-item {
+            transition: transform 0.2s;
         }
+
         .product-item:hover {
-            transform: scale(1.1); /* Phóng to logo khi di chuột */
-        }
-
-        .search-result {
-            text-align: center;
-            margin-top: 20px;
+            transform: scale(1.1);
         }
 
         .product-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-        }
-
-        .product-item {
-            margin: 10px;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            gap: 10px;
         }
 
         .dropdown-menu {
             max-height: 300px;
             overflow-y: auto;
-        }
-
-       
-        .nav-link {
-            font-size: 20px;
-            padding-bottom: 10px; 
-
-      
-        .dropdown-item {
-            padding: 8px 16px; 
         }
     </style>
 </head>
@@ -74,13 +50,13 @@
     <div class="container">
         <header class="text-center py-4">
             <h1 class="display-4">Thực Phẩm Chức Năng Nhóm 8</h1>
-            <p class="lead">Thực Phẩm Chức Năng Nhóm 8 Luôn Có, Đặt Là Giao Ngay</p>
+           
         </header>   
         
         <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
             <div class="container-fluid">
                 <a class="navbar-brand" href="trangchu.php">
-                    <img src="logo.png" alt="Logo" style="width: 170px; height: 150px; padding-top: 40px;">
+                    <img src="logo.png" alt="Logo" style="width: 140px; height: auto;">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -88,11 +64,12 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown" onmouseenter="showDropdown()" onmouseleave="hideDropdown()">
-                            <a class="nav-link dropdown-toggle" href="sanphan.php" id="navbarDropdown" role="button" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-expanded="false">
                                 Sản phẩm
                             </a>
                             <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown" style="display: none;">
                                 <?php   
+                                // Database connection details
                                 $servername = "localhost";
                                 $username = "root";
                                 $password = "";
@@ -108,28 +85,7 @@
 
                                 if ($result && mysqli_num_rows($result) > 0) {
                                     while($row = mysqli_fetch_assoc($result)) {
-                                        try {
-                                            $loai = strtolower($row['loai_mat_hang']);
-                                            switch ($loai) {
-                                                case 'vitamins':
-                                                    echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
-                                                    break;
-                                                case 'thực phẩm bổ sung':
-                                                    echo "<li><a class='dropdown-item' href='thucphamboxung.php'>{$row['loai_mat_hang']}</a></li>";
-                                                    break;
-                                                case 'khoáng chất':
-                                                    echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
-                                                    break;
-                                                case 'mẹ và bé':
-                                                    echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
-                                                    break;
-                                                default:
-                                                    echo "<li><a class='dropdown-item' href='sanpham.php?loai={$row['loai_mat_hang']}'>{$row['loai_mat_hang']}</a></li>";
-                                                    break;
-                                            }
-                                        } catch (Exception $e) {
-                                            echo "<li><a class='dropdown-item' href='sanpham.php?loai={$row['loai_mat_hang']}'>{$row['loai_mat_hang']}</a></li>";
-                                        }
+                                        echo "<li><a class='dropdown-item' href='sanpham.php?loai=" . urlencode($row['loai_mat_hang']) . "'>{$row['loai_mat_hang']}</a></li>";
                                     }
                                 }
                                 mysqli_close($conn);
@@ -145,13 +101,67 @@
                     </ul>
                 </div>
                 <form action="timkiem.php" method="post" class="d-flex" style="flex-grow: 1;">
-                    <input class="form-control me-2" style="width: 670px;" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
+                    <input style="width: 600px;" class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
                     <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                 </form>
+                <div>
+                    <a href="dangki.php" style="text-decoration: none; color: black;">
+                        <img src="user.png" alt="User" style="width: 40px; height: 40px; margin-left: 20px;">
+                        <p>Đăng kí</p>
+                    </a>
+                </div>
             </div>
         </nav>
         
-        <div id="productList" class="product-list mt-4" style="display: none;"></div>
+        <div class="product-list mt-4">
+            <h2 style="text-align: center;" class="text-center mb-4">Sản Phẩm Nổi Bật</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-3 mb-4">
+                    <div class="product-item card h-100">
+                        <img src="vitamin_c.jpg" alt="Vitamin C" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Vitamin C</h5>
+                            <p class="card-text">Loại: Vitamins</p>
+                            <p class="card-text mt-auto"><strong>Giá: 9.000 VNĐ</strong></p>
+                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="product-item card h-100">
+                        <img src="bo_nao.jpg" alt="Bổ Não" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Bổ Não</h5>
+                            <p class="card-text">Loại: Thực Phẩm Bổ Sung</p>
+                            <p class="card-text mt-auto"><strong>Giá: 15.000 VNĐ</strong></p>
+                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="product-item card h-100">
+                        <img src="khoang_chat.jpg" alt="Khoáng Chất" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Khoáng Chất</h5>
+                            <p class="card-text">Loại: Khoáng Chất</p>
+                            <p class="card-text mt-auto"><strong>Giá: 15.000 VNĐ</strong></p>
+                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="product-item card h-100">
+                        <img src="tang_chieu_cao.jpg" alt="Tăng Chiều Cao" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Tăng Chiều Cao</h5>
+                            <p class="card-text">Loại: Mẹ Và Bé</p>
+                            <p class="card-text mt-auto"><strong>Giá: 15.000 VNĐ</strong></p>
+                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <script>
         function showDropdown() {
@@ -162,48 +172,7 @@
             document.getElementById("productDropdown").style.display = 'none';
         }
         </script>
-      
     </div>
-    <div>
-        <h1>Sản Phẩm Nổi Bật</h1>
-        <div style="display: flex; flex-wrap: wrap;">
-        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
-    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
-        <p>Vitamin C</p>
-        <p>Loại: Vitamins</p>
-        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
-        <p>Giá: 9.000 VNĐ</p>
-    </div>
-</a>
-
-<div style="display: flex; flex-wrap: wrap;">
-        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
-    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
-        <p>Vitamin C</p>
-        <p>Loại: Vitamins</p>
-        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
-        <p>Giá: 9.000 VNĐ</p>
-    </div>
-</a>
-<div style="display: flex; flex-wrap: wrap;">
-        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
-    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
-        <p>Vitamin C</p>
-        <p>Loại: Vitamins</p>
-        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
-        <p>Giá: 9.000 VNĐ</p>
-    </div>
-</a>
-<div style="display: flex; flex-wrap: wrap;">
-        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
-    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
-        <p>Vitamin C</p>
-        <p>Loại: Vitamins</p>
-        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
-        <p>Giá: 9.000 VNĐ</p>
-    </div>
-</a>
-        </div>
-    </div>
+    
 </body>
 </html>
