@@ -7,7 +7,7 @@
     <title>Thực Phẩm Chức Năng Nhóm 8</title>
     <style>
         body {
-            background-image: url('img/bg.jpg');
+            background-image: url('back.jpg');
             background-size: cover;
             background-position: center;
             min-height: 100vh;
@@ -25,9 +25,13 @@
             margin-top: 20px;
         }
 
-        img {
-            max-width: 200px;
-            margin-top: 10px;
+        
+
+        img:hover {
+            transform: scale(1.1); /* Phóng to logo khi di chuột */
+        }
+        .product-item:hover {
+            transform: scale(1.1); /* Phóng to logo khi di chuột */
         }
 
         .search-result {
@@ -54,6 +58,16 @@
             max-height: 300px;
             overflow-y: auto;
         }
+
+       
+        .nav-link {
+            font-size: 20px;
+            padding-bottom: 10px; 
+
+      
+        .dropdown-item {
+            padding: 8px 16px; 
+        }
     </style>
 </head>
 <body>
@@ -61,22 +75,24 @@
         <header class="text-center py-4">
             <h1 class="display-4">Thực Phẩm Chức Năng Nhóm 8</h1>
             <p class="lead">Thực Phẩm Chức Năng Nhóm 8 Luôn Có, Đặt Là Giao Ngay</p>
-        </header>
+        </header>   
         
-        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
             <div class="container-fluid">
-                <a class="navbar-brand" href="trangchu.php">Trang chủ</a>
+                <a class="navbar-brand" href="trangchu.php">
+                    <img src="logo.png" alt="Logo" style="width: 170px; height: 150px; padding-top: 40px;">
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>   
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown" onmouseenter="showDropdown()" onmouseleave="hideDropdown()">
                             <a class="nav-link dropdown-toggle" href="sanphan.php" id="navbarDropdown" role="button" aria-expanded="false">
                                 Sản phẩm
                             </a>
                             <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown" style="display: none;">
-                                <?php
+                                <?php   
                                 $servername = "localhost";
                                 $username = "root";
                                 $password = "";
@@ -101,12 +117,12 @@
                                                 case 'thực phẩm bổ sung':
                                                     echo "<li><a class='dropdown-item' href='thucphamboxung.php'>{$row['loai_mat_hang']}</a></li>";
                                                     break;
-                                                    case 'khoáng chất':
-                                                        echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
-                                                        break;
-                                                        case 'mẹ và bé':
-                                                            echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
-                                                            break;
+                                                case 'khoáng chất':
+                                                    echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
+                                                    break;
+                                                case 'mẹ và bé':
+                                                    echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
+                                                    break;
                                                 default:
                                                     echo "<li><a class='dropdown-item' href='sanpham.php?loai={$row['loai_mat_hang']}'>{$row['loai_mat_hang']}</a></li>";
                                                     break;
@@ -114,7 +130,6 @@
                                         } catch (Exception $e) {
                                             echo "<li><a class='dropdown-item' href='sanpham.php?loai={$row['loai_mat_hang']}'>{$row['loai_mat_hang']}</a></li>";
                                         }
-                                        
                                     }
                                 }
                                 mysqli_close($conn);
@@ -129,6 +144,10 @@
                         </li>
                     </ul>
                 </div>
+                <form action="timkiem.php" method="post" class="d-flex" style="flex-grow: 1;">
+                    <input class="form-control me-2" style="width: 670px;" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
+                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                </form>
             </div>
         </nav>
         
@@ -143,17 +162,48 @@
             document.getElementById("productDropdown").style.display = 'none';
         }
         </script>
+      
+    </div>
+    <div>
+        <h1>Sản Phẩm Nổi Bật</h1>
+        <div style="display: flex; flex-wrap: wrap;">
+        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
+    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
+        <p>Vitamin C</p>
+        <p>Loại: Vitamins</p>
+        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
+        <p>Giá: 9.000 VNĐ</p>
+    </div>
+</a>
 
-        <div class="search-form">
-            <form action="timkiem.php" method="post" class="d-flex">
-                <input class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
-                <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-            </form>
+<div style="display: flex; flex-wrap: wrap;">
+        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
+    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
+        <p>Vitamin C</p>
+        <p>Loại: Vitamins</p>
+        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
+        <p>Giá: 9.000 VNĐ</p>
+    </div>
+</a>
+<div style="display: flex; flex-wrap: wrap;">
+        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
+    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
+        <p>Vitamin C</p>
+        <p>Loại: Vitamins</p>
+        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
+        <p>Giá: 9.000 VNĐ</p>
+    </div>
+</a>
+<div style="display: flex; flex-wrap: wrap;">
+        <a href="vitamin.php" style="text-decoration: none; color: black;"> 
+    <div class="product-item" style="margin: 10px; background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); ">
+        <p>Vitamin C</p>
+        <p>Loại: Vitamins</p>
+        <img src="logo.png" alt="" style="width: 100px; height: 100px;"> 
+        <p>Giá: 9.000 VNĐ</p>
+    </div>
+</a>
         </div>
-       <div class="search-result">
-           <a href="dangnhap.php" class="btn btn-link">Đăng Nhập</a>
-           <a href="dangki.php" class="btn btn-link">Đăng Ký</a>
-       </div>
     </div>
 </body>
 </html>
