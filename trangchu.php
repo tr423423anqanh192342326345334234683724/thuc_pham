@@ -48,9 +48,14 @@
 </head>
 <body>
     <div class="container">
+    <div style="padding-left: 1220px;">
+                    <a href="dangki.php" style="text-decoration: none; color: black; ">
+                        <img src="user.png" alt="User" style="width: 40px; height: 40px; margin-left: 20px;">
+                        <button style="background-color: lightblue; border-radius: 50%; cursor: pointer;">Đăng kí</button>
+                    </a>
+                </div>
         <header class="text-center py-4">
             <h1 class="display-4">Thực Phẩm Chức Năng Nhóm 8</h1>
-           
         </header>   
         
         <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
@@ -63,13 +68,12 @@
                 </button>   
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
-                        <li class="nav-item dropdown" onmouseenter="showDropdown()" onmouseleave="hideDropdown()">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" aria-expanded="false">
+                        <li class="nav-item dropdown">
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
                                 Sản phẩm
                             </a>
-                            <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown" style="display: none;">
+                            <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown">
                                 <?php   
-                                // Database connection details
                                 $servername = "localhost";
                                 $username = "root";
                                 $password = "";
@@ -85,7 +89,23 @@
 
                                 if ($result && mysqli_num_rows($result) > 0) {
                                     while($row = mysqli_fetch_assoc($result)) {
-                                        echo "<li><a class='dropdown-item' href='sanpham.php?loai=" . urlencode($row['loai_mat_hang']) . "'>{$row['loai_mat_hang']}</a></li>";
+                                        switch ($row['loai_mat_hang']) {
+                                            case "vitamins":
+                                                echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            case "Khoáng chất":
+                                                echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            case "thực phẩm bổ sung":
+                                                echo "<li><a class='dropdown-item' href='thucphamchucnang.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            case "mẹ và bé":
+                                                echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            default:
+                                                echo "<li><a class='dropdown-item' href='#'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                        }
                                     }
                                 }
                                 mysqli_close($conn);
@@ -93,10 +113,10 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="gioithieu.php">Giới thiệu</a>
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="gioithieu.php">Giới thiệu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="lienhe.php">Liên hệ</a>
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="lienhe.php">Liên hệ</a>
                         </li>
                     </ul>
                 </div>
@@ -104,66 +124,46 @@
                     <input style="width: 600px;" class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
                     <button class="btn btn-primary" type="submit">Tìm kiếm</button>
                 </form>
-                <div>
-                    <a href="dangki.php" style="text-decoration: none; color: black;">
-                        <img src="user.png" alt="User" style="width: 40px; height: 40px; margin-left: 20px;">
-                        <p>Đăng kí</p>
-                    </a>
-                </div>
+                
             </div>
         </nav>
-        
-        <div class="product-list mt-4">
+        <br>
+        <div style="background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
             <h2 style="text-align: center;" class="text-center mb-4">Sản Phẩm Nổi Bật</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-3 mb-4">
-                    <div class="product-item card h-100">
-                        <img src="vitamin_c.jpg" alt="Vitamin C" class="card-img-top" style="height: 200px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Vitamin C</h5>
-                            <p class="card-text">Loại: Vitamins</p>
-                            <p class="card-text mt-auto"><strong>Giá: 9.000 VNĐ</strong></p>
-                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
-                        </div>
-                    </div>
+            <div class="product-list d-flex justify-content-center">
+                <div class="product-item mx-2">
+                    <h3>Vitamin C</h3>
+                    <img src="vitamin.jpg" alt="Sản phẩm 1" class="img-fluid" style="width: 200px; height: 200px;">
+                    <p>Loại: Vitamin</p>
+                    <p>Giá: 100.000 VNĐ</p>
+                    <a href="#" class="btn btn-primary">Xem chi tiết</a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="product-item card h-100">
-                        <img src="bo_nao.jpg" alt="Bổ Não" class="card-img-top" style="height: 200px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Bổ Não</h5>
-                            <p class="card-text">Loại: Thực Phẩm Bổ Sung</p>
-                            <p class="card-text mt-auto"><strong>Giá: 15.000 VNĐ</strong></p>
-                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
-                        </div>
-                    </div>
+                <div class="product-item mx-2">
+                    <h3>Calcium</h3>
+                    <img src="vitamin.jpg" alt="Sản phẩm 1" class="img-fluid" style="width: 200px; height: 200px;">
+                    <p>Loại: Khoáng chất</p>
+                    <p>Giá: 100.000 VNĐ</p>
+                    <a href="#" class="btn btn-primary">Xem chi tiết</a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="product-item card h-100">
-                        <img src="khoang_chat.jpg" alt="Khoáng Chất" class="card-img-top" style="height: 200px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Khoáng Chất</h5>
-                            <p class="card-text">Loại: Khoáng Chất</p>
-                            <p class="card-text mt-auto"><strong>Giá: 15.000 VNĐ</strong></p>
-                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
-                        </div>
-                    </div>
+                <div class="product-item mx-2">
+                    <h3>Tăng Chiều Cao</h3>
+                    <img src="vitamin.jpg" alt="Sản phẩm 1" class="img-fluid" style="width: 200px; height: 200px;">
+                    <p>Loại: Mẹ và bé</p>
+                    <p>Giá: 100.000 VNĐ</p>
+                    <a href="#" class="btn btn-primary">Xem chi tiết</a>
                 </div>
-                <div class="col-md-3 mb-4">
-                    <div class="product-item card h-100">
-                        <img src="tang_chieu_cao.jpg" alt="Tăng Chiều Cao" class="card-img-top" style="height: 200px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Tăng Chiều Cao</h5>
-                            <p class="card-text">Loại: Mẹ Và Bé</p>
-                            <p class="card-text mt-auto"><strong>Giá: 15.000 VNĐ</strong></p>
-                            <a href="#" class="btn btn-primary mt-2">Xem chi tiết</a>
-                        </div>
-                    </div>
+                <div class="product-item mx-2">
+                    <h3>Bổ Não</h3>
+                    <img src="vitamin.jpg" alt="Sản phẩm 1" class="img-fluid" style="width: 200px; height: 200px;">
+                    <p>Loại: Thực phẩm bổ sung</p>
+                    <p>Giá: 100.000 VNĐ</p>
+                    <a href="#" class="btn btn-primary">Xem chi tiết</a>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script>
+    <script>
         function showDropdown() {
             document.getElementById("productDropdown").style.display = 'block';
         }
@@ -171,8 +171,26 @@
         function hideDropdown() {
             document.getElementById("productDropdown").style.display = 'none';
         }
-        </script>
+
+        // Gắn sự kiện cho menu
+        const dropdownToggle = document.getElementById("navbarDropdown");
+        const dropdownMenu = document.getElementById("productDropdown");
+
+        if (dropdownToggle && dropdownMenu) {
+            dropdownToggle.addEventListener("mouseenter", showDropdown);
+            dropdownToggle.addEventListener("mouseleave", hideDropdown);
+            dropdownMenu.addEventListener("mouseenter", showDropdown);
+            dropdownMenu.addEventListener("mouseleave", hideDropdown);
+        }
+    </script>
+    <div>
+        <h1 style="font-weight: bold; padding-left: 100px; font-size: 30px;">Góc Sức Khỏe</h1>
+        <div>
+            <img src="suckhoe.jpg" alt="" style="width: 100%; height: 300px;">
+            <p>Bệnh vòng lương có thể chữa được không? cách chữa vòng lưng</p>
+        </div>
+
+
     </div>
-    
 </body>
 </html>
