@@ -94,14 +94,15 @@
                                 if ($result && mysqli_num_rows($result) > 0) {
                                     while($row = mysqli_fetch_assoc($result)) {
                                         switch ($row['loai_mat_hang']) {
-                                            case "vitamins":
+                                            case "Vitamins":
                                                 echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Khoáng chất":
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "thực phẩm bổ sung":
-                                                echo "<li><a class='dropdown-item' href='thucphamchucnang.php'>{$row['loai_mat_hang']}</a></li>";
+                                            case "Thực phẩm bổ sung":
+                                                echo "<li><a class='dropdown-item' href='thucphamboxung 
+                                                .php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "mẹ và bé":
                                                 echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
@@ -192,7 +193,7 @@
     <div >
     <h1 ><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
     <div>
-        <a href=""  ><div>
+        <a href="#"  ><div>
             <img src="diung.jpg" alt="" style="width: 200px; height: 200px; margin-bottom: 10px;">
             <h3 > Dị ứng là gì? cách đối phó với dị ứng </h3>
         </div></a>
@@ -206,7 +207,16 @@
         </div></a>
     </div>
 </div>
-
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
 
 
     </div>
