@@ -120,7 +120,7 @@
                             <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="gioithieu.php">Giới thiệu</a>
                         </li>
                         <li class="nav-item">
-                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="lienhe.php">Liên hệ</a>
+                            <a class="nav-link" href="lienhe.php">Liên hệ</a>
                         </li>
                     </ul>
                 </div>
