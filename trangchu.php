@@ -97,7 +97,6 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="lienhe.php">Liên hệ</a>
-                        </li>
                     </ul>
                 </div>
                 <form action="timkiem.php" method="post" class="d-flex" style="flex-grow: 1;">
