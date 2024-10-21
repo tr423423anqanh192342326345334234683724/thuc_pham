@@ -47,6 +47,9 @@
     </style>
 </head>
 <body>
+    <br>
+    <br>
+    <br>
     <div class="container">
     <div style="display: flex; justify-content: flex-end; gap: 20px;">
         <a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
@@ -200,7 +203,7 @@
     </script>
     <br>
     <div >
-    <h1 ><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
+    <h1 style="padding-left: 20px;"><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
     <div class="product-list d-flex justify-content-center">
         <div class="product-item mx-2">
         <a href="#" style="text-decoration: none; color: black;">
@@ -209,8 +212,8 @@
             <h3 > Dị ứng là gì? cách đối phó với dị ứng </h3>
         </a></div>
         <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
-            <img src="suckhoe.jpg" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
+        <a href="suimaoga.php" style="text-decoration: none; color: black;">
+            <img src="suimaoga.png" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
             <h3 >Sùi mào gà là gì? cách đối phó với sùi mào gà</h3>
         </a></div>
         <div class="product-item mx-2">
@@ -229,6 +232,8 @@
         <br>
         <br>
         <br>
+        
+        
 
 
     </div>

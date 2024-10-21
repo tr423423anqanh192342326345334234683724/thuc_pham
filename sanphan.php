@@ -220,6 +220,7 @@
                 echo '<p>Không có hình ảnh</p>';
             }
             // Thay đổi nút chi tiết để dẫn đến trang sản phẩm cụ thể
+            echo "<br>";
             echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
 
             echo "</div>";
