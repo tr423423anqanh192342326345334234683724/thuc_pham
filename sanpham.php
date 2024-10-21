@@ -4,65 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Thực Phẩm Chức Năng Nhóm 8</title>
+    
+    <title>Chi tiết sản phẩm</title>
     <style>
         body {
-            background-image: url('hihi.jpg');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
             margin: 0;
-        }
-
-        .search-form, .product-item {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            background-color: #f8f9fa;
+        }
+        .product-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: block;
             margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            text-align: center;
         }
-
-        .product-item {
-            transition: transform 0.2s;
+        .related-products {
+            margin-top: 40px;
         }
-
-        .product-item:hover {
-            transform: scale(1.1);
+        .related-products h2 {
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+        .related-products .product-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: calc(33.33% - 20px);
+            box-sizing: border-box;
+            background-color: #fff;
+            transition: box-shadow 0.3s;
+            display: inline-block;
+            margin: 10px;
         }
-
-        .dropdown-menu {
-            max-height: 300px;
-            overflow-y: auto;
+        .related-products .product-item:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-    <div style="display: flex; justify-content: flex-end; gap: 20px;">
-        <a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
-            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng kí</button>
-        </a>
-        <a href="giohang.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
-            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Giỏ hàng</button>
-        </a>
-    </div>
-        <header class="text-center py-4">
-            <h1 class="display-4">Thực Phẩm Chức Năng Nhóm 8</h1>
-        </header>   
-        
-        <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
+<div class="container">
+    <h1>Sản phẩm Thực phẩm chức năng</h1>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="trangchu.php" style="padding-top: 100px; transition: transform 0.2s; transform: scale(1.1);   ">
                     <img src="logo.png" alt="Logo" style="width: 200px; height: auto;">
@@ -132,53 +135,7 @@
                 
             </div>
         </nav>
-        <br>
-        <div style="background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-            <h2 style="text-align: center;" class="text-center mb-4"><img src="banchay.png" alt="" style="width: 50px; height: 50px;">Sản Phẩm Nổi Bật</h2>
-            <div class="product-list d-flex justify-content-center">
-                <?php
-                 $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "thuc_pham_chuc_nang";
-
-                $conn = mysqli_connect($servername, $username, $password, $dbname);
-                if (!$conn) {
-                    die("Kết nối thất bại: " . mysqli_connect_error());
-                }
-
-    
-                $sql = "SELECT * FROM mat_hang ORDER BY RAND() LIMIT 4";
-                $result = mysqli_query($conn, $sql);
-
-                if ($result && mysqli_num_rows($result) > 0) {
-                    while($row = mysqli_fetch_assoc($result)) {
-                        echo "<div class='product-item mx-2'>";
-                        echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
-                        
-                        if (!empty($row['hinh_anh'])) {
-                            $imageData = base64_encode($row['hinh_anh']);
-                            echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" class="img-fluid" style="width: 200px; height: 200px;">';
-                        } else {
-                            echo '<img src="vitamin.jpg" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
-                        }
-                        
-                        echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
-                        echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
-                        echo "<a href='sanpham.php?id=" . $row['id'] . "' class='btn btn-primary'>Xem chi tiết</a>";
-                        echo "</div>";
-                    }
-                } else {
-                    echo "<p>Không có sản phẩm nào.</p>";
-                }
-
-                mysqli_close($conn);
-                ?>
-            </div>
-        </div>
-    </div>
-
-    <script>
+        <script>
         function showDropdown() {
             document.getElementById("productDropdown").style.display = 'block';
         }
@@ -199,39 +156,85 @@
         }
         
     </script>
-    <br>
-    <div >
-    <h1 ><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
-    <div class="product-list d-flex justify-content-center">
-        <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
+        <br>
+        <br>
+        <br>
+    <div class="product-detail">
+        <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "thuc_pham_chuc_nang";
 
-            <img src="diung.jpg" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
-            <h3 > Dị ứng là gì? cách đối phó với dị ứng </h3>
-        </a></div>
-        <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
-            <img src="suckhoe.jpg" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
-            <h3 >Sùi mào gà là gì? cách đối phó với sùi mào gà</h3>
-        </a></div>
-        <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
-            <img src="vonglung.png" alt="" style="width: 300px  ; height: 300px;">
-            <h3 >Bệnh võng mạch có thể chữa được không? cách chữa võng lưng</h3>
-        </a></div>
-    </div>
-</div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        if (!$conn) {
+            die("Kết nối thất bại: " . mysqli_connect_error());
+        }
 
+        if(isset($_GET['id'])) {
+            $id = mysqli_real_escape_string($conn, $_GET['id']);
+            $sql = "SELECT * FROM mat_hang WHERE id = $id";
+            $result = mysqli_query($conn, $sql);
 
+            if ($result && mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                echo "<h1>" . htmlspecialchars($row['ten_mat_hang']) . "</h1>";
+                echo "<p><strong>Loại:</strong> " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
+                echo "<p><strong>Công dụng:</strong> " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
+                echo "<p><strong>Giá:</strong> " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
+                
+                
+                if (!empty($row['hinh_anh'])) {
+                    $imageData = base64_encode($row['hinh_anh']);
+                    echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                } else {
+                    echo '<p>Không có hình ảnh</p>';
+                }
+                
+    
+            } else {
+                echo "<p>Không tìm thấy sản phẩm.</p>";
+            }
+            
+        } else {
+            echo "<p>Không có thông tin sản phẩm.</p>";
+        }
+       ?>
+       <br>
+       <br>
+       <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;" class="buy-now-btn"><a style="text-decoration: none; color: white;" href="giohang.php">Mua Ngay</a></button>
+       <?php 
+        if(isset($_GET['id'])) {
+            $id = mysqli_real_escape_string($conn, $_GET['id']);
+            $sql = "SELECT * FROM mat_hang WHERE loai_mat_hang = (SELECT loai_mat_hang FROM mat_hang WHERE id = $id) AND id != $id";
+            $result = mysqli_query($conn, $sql);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                echo "<div class='related-products'>";
+                echo "<h2>Sản phẩm liên quan</h2>";
+                while($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='product-item'>";
+                    echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
+                    echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
+                    echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
+                    
+                    if (!empty($row['hinh_anh'])) {
+                        $imageData = base64_encode($row['hinh_anh']);
+                        echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                    } else {
+                        echo '<p>Không có hình ảnh</p>';
+                    }
+                    echo "</div>";
+                }
+                echo "</div>";
+            } else {
+                echo "<p>Không có sản phẩm liên quan.</p>";
+            }
+        }
+
+        mysqli_close($conn);
+        ?>
+        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;" class="buy-now-btn"><a style="text-decoration: none; color: white;" href="sanphan.php">Trang Sản Phẩm</a></button>
     </div>
 </body>
 </html>

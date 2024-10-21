@@ -17,7 +17,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item dropdown">
-                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button">
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link dropdown-toggle" href="sanphan.php" id="navbarDropdown" role="button">
                                 Sản phẩm
                             </a>
                             <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown">
