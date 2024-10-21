@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     
-    <title>Sản phẩm Thực phẩm chức năng</title>
+    <title>Chi tiết sản phẩm</title>
     <style>
         body {
             background-image: url('hihi.jpg');
@@ -15,22 +15,40 @@
             display: flex;
             flex-direction: column;
             margin: 0;
-            font-family: Arial, sans-serif;
+        }
+        .product-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         h1 {
-            text-align: center;
             color: #333;
-            margin-top: 20px;
-            font-size: 24px;
+            text-align: center;
         }
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 20px;
+        img {
+            max-width: 100%;
+            border-radius: 5px;
+            display: block;
+            margin: 0 auto;
         }
-        .product-item {
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            text-align: center;
+        }
+        .related-products {
+            margin-top: 40px;
+        }
+        .related-products h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .related-products .product-item {
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 10px;
@@ -38,56 +56,16 @@
             box-sizing: border-box;
             background-color: #fff;
             transition: box-shadow 0.3s;
+            display: inline-block;
+            margin: 10px;
+        }
+        .related-products .product-item:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .product-item:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transform: scale(1.05);
-        }
-        img {
-            max-width: 100%;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin: 20px 0;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .search-form, .product-item {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
-        }
-        .product-item {
-            transition: transform 0.2s;
-        }
-
-        .product-item:hover {
-            transform: scale(1.1);
-        }
-
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .dropdown-menu {
-            max-height: 300px;
-            overflow-y: auto;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+<div class="container">
     <h1>Sản phẩm Thực phẩm chức năng</h1>
     <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
             <div class="container-fluid">
@@ -182,54 +160,93 @@
         <br>
         <br>
         <br>
+    <div class="product-detail">
+        <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "thuc_pham_chuc_nang";
 
-    
-
-    <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "thuc_pham_chuc_nang";
-
-
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-    if (!$conn) {
-        die("Kết nối thất bại: " . mysqli_connect_error());
-    }
-
-  
-    $sql = "SELECT * FROM mat_hang";
-
-   
-    $result = mysqli_query($conn, $sql);
-
-  
-    if ($result && mysqli_num_rows($result) > 0) {
-        echo "<div class='product-list'>";
-        while($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='product-item'>";
-            echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
-            echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
-            echo "<p>Công dụng: " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
-            echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
-            
-            if (!empty($row['hinh_anh'])) {
-                $imageData = base64_encode($row['hinh_anh']);
-                echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
-            } else {
-                echo '<p>Không có hình ảnh</p>';
-            }
-            // Thay đổi nút chi tiết để dẫn đến trang sản phẩm cụ thể
-            echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
-
-            echo "</div>";
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
+        if (!$conn) {
+            die("Kết nối thất bại: " . mysqli_connect_error());
         }
-        echo "</div>";
-    } else {
-        echo "<p>Không có sản phẩm nào.</p>";
-    }
 
-    mysqli_close($conn);
-    ?>
+        if(isset($_GET['id'])) {
+            $id = mysqli_real_escape_string($conn, $_GET['id']);
+            $sql = "SELECT * FROM mat_hang WHERE id = $id";
+            $result = mysqli_query($conn, $sql);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                echo "<h1>" . htmlspecialchars($row['ten_mat_hang']) . "</h1>";
+                echo "<p><strong>Loại:</strong> " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
+                echo "<p><strong>Công dụng:</strong> " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
+                echo "<p><strong>Giá:</strong> " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
+                
+                
+                if (!empty($row['hinh_anh'])) {
+                    $imageData = base64_encode($row['hinh_anh']);
+                    echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                } else {
+                    echo '<p>Không có hình ảnh</p>';
+                }
+                
+    
+            } else {
+                echo "<p>Không tìm thấy sản phẩm.</p>";
+            }
+            
+        } else {
+            echo "<p>Không có thông tin sản phẩm.</p>";
+        }
+       ?>
+       <br>
+       <br>
+       <form method="GET" action="giohang.php">
+           <input type="hidden" name="product_id" value="' . $id . '">
+           <input type="number" name="quantity" value="1" min="1" max="10" style="width: 50px; margin-right: 10px;">
+           <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Thêm vào giỏ hàng</button>
+       </form>
+    </div>
+    
+    <div class="related-products">
+       <h2>Sản phẩm liên quan</h2>
+       <div class="product-list">
+       <?php 
+        if(isset($_GET['id'])) {
+            $id = mysqli_real_escape_string($conn, $_GET['id']);
+            $sql = "SELECT * FROM mat_hang WHERE loai_mat_hang = (SELECT loai_mat_hang FROM mat_hang WHERE id = $id) AND id != $id";
+            $result = mysqli_query($conn, $sql);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    echo "<div class='product-item'>";
+                    echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
+                    echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
+                    echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
+                    
+                    if (!empty($row['hinh_anh'])) {
+                        $imageData = base64_encode($row['hinh_anh']);
+                        echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                
+                        echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
+                    } else {
+                        echo '<p>Không có hình ảnh</p>';
+                    }
+                    echo "</div>";
+                }
+            } else {
+                echo "<p>Không có sản phẩm liên quan.</p>";
+            }
+        }
+
+        mysqli_close($conn);
+        ?>
+        </div>
+        <br>
+        <br>
+        
+    </div>
 </body>
 </html>

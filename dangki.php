@@ -115,6 +115,7 @@ $conn->close();
     </style>
 </head>
 <body>
+<<<<<<< HEAD
 
 <h1>Đăng ký hoặc Đăng nhập</h1>
 
@@ -125,5 +126,39 @@ $conn->close();
     <input type="submit" value="Đăng ký">
 </form>
 
+=======
+    <div class="form-container">
+        <h2>Đăng ký</h2>
+        <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "thuc_pham_chuc_nang";
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Kết nối thất bại: " . $conn->connect_error);
+        }
+        $sql = "SELECT * FROM tai_khoan_khach_hang";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                if ($row["taikhoan"] == $_POST['taikhoan']) {
+                    $error = 'Tài khoản đã tồn tại.';
+                    break;
+                }
+            }
+        }
+        if(
+       
+        ?>
+        <form method="POST" action="">
+           <input type="text" name="taikhoan" placeholder="Tài khoản" required><br>
+           <input type="password" name="matkhau" placeholder="Mật khẩu" required><br>
+           <input type="password" name="nhaplai" placeholder="Nhập lại mật khẩu" required><br>
+           <input type="submit" value="Đăng ký">
+        </form>
+        <a href="dangnhap.php" class="toggle-link">Đã có tài khoản? Đăng nhập</a>
+    </div>
+>>>>>>> aa2543738f8882f1805d605029bfaa3e930ed05c
 </body>
 </html>
