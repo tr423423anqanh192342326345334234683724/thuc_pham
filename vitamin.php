@@ -48,7 +48,7 @@
                                                 echo "<li><a class='dropdown-item' href='thucphamboxung 
                                                 .php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "mẹ và bé":
+                                            case "Mẹ và bé":
                                                 echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             default:

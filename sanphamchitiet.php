@@ -8,11 +8,13 @@
     <title>Chi tiết sản phẩm</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+            background-image: url('hihi.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             margin: 0;
-            padding: 20px;
-            background-color: #f8f9fa;
         }
         .product-detail {
             max-width: 800px;
@@ -104,10 +106,9 @@
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
-                                                echo "<li><a class='dropdown-item' href='thucphamboxung 
-                                                .php'>{$row['loai_mat_hang']}</a></li>";
+                                                echo "<li><a class='dropdown-item' href='thucphamboxung.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "mẹ và bé":
+                                            case "Mẹ và bé":
                                                 echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             default:
@@ -202,7 +203,16 @@
        ?>
        <br>
        <br>
-       <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;" class="buy-now-btn"><a style="text-decoration: none; color: white;" href="giohang.php">Mua Ngay</a></button>
+       <form method="GET" action="giohang.php">
+           <input type="hidden" name="product_id" value="' . $id . '">
+           <input type="number" name="quantity" value="1" min="1" max="10" style="width: 50px; margin-right: 10px;">
+           <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Thêm vào giỏ hàng</button>
+       </form>
+    </div>
+    
+    <div class="related-products">
+       <h2>Sản phẩm liên quan</h2>
+       <div class="product-list">
        <?php 
         if(isset($_GET['id'])) {
             $id = mysqli_real_escape_string($conn, $_GET['id']);
@@ -210,8 +220,6 @@
             $result = mysqli_query($conn, $sql);
 
             if ($result && mysqli_num_rows($result) > 0) {
-                echo "<div class='related-products'>";
-                echo "<h2>Sản phẩm liên quan</h2>";
                 while($row = mysqli_fetch_assoc($result)) {
                     echo "<div class='product-item'>";
                     echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
@@ -221,12 +229,13 @@
                     if (!empty($row['hinh_anh'])) {
                         $imageData = base64_encode($row['hinh_anh']);
                         echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                
+                        echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
                     } else {
                         echo '<p>Không có hình ảnh</p>';
                     }
                     echo "</div>";
                 }
-                echo "</div>";
             } else {
                 echo "<p>Không có sản phẩm liên quan.</p>";
             }
@@ -234,7 +243,10 @@
 
         mysqli_close($conn);
         ?>
-        <button style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;" class="buy-now-btn"><a style="text-decoration: none; color: white;" href="sanphan.php">Trang Sản Phẩm</a></button>
+        </div>
+        <br>
+        <br>
+        
     </div>
 </body>
 </html>

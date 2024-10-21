@@ -59,7 +59,7 @@
         </a>
     </div>
         <header class="text-center py-4">
-            <h1 class="display-4">Thực Phẩm Chức Năng Nhóm 8</h1>
+            <h1 class="display-4" style="font-weight: bold;">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
         </header>   
         
         <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
@@ -101,10 +101,9 @@
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
-                                                echo "<li><a class='dropdown-item' href='thucphamboxung 
-                                                .php'>{$row['loai_mat_hang']}</a></li>";
+                                                echo "<li><a class='dropdown-item' href='thucphamboxung.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "mẹ và bé":
+                                            case "Mẹ và bé":
                                                 echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             default:
@@ -148,7 +147,7 @@
                 }
 
     
-                $sql = "SELECT * FROM mat_hang ORDER BY RAND() LIMIT 4";
+                $sql = "SELECT * FROM mat_hang ORDER BY RAND() LIMIT 3";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result && mysqli_num_rows($result) > 0) {
@@ -165,7 +164,7 @@
                         
                         echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
                         echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
-                        echo "<a href='sanpham.php?id=" . $row['id'] . "' class='btn btn-primary'>Xem chi tiết</a>";
+                        echo "<a href='sanphamchitiet.php?id=" . $row['id'] . "' class='btn btn-primary'>Xem chi tiết</a>";
                         echo "</div>";
                     }
                 } else {

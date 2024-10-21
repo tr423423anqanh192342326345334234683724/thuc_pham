@@ -6,7 +6,7 @@
     <title>Giỏ Hàng</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        body {
+      body {
             background-image: url('hihi.jpg');
             background-size: cover;
             background-position: center;
@@ -22,24 +22,24 @@
             margin-top: 20px;
             font-size: 24px;
         }
-        .cart-list {
+        .product-list {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
             margin-top: 20px;
         }
-        .cart-item {
+        .product-item {
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 10px;
-            width: 100%;
+            width: calc(33.33% - 20px);
             box-sizing: border-box;
             background-color: #fff;
             transition: box-shadow 0.3s;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
-        .cart-item:hover {
+        .product-item:hover {
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transform: scale(1.05);
         }
@@ -56,7 +56,7 @@
             color: #007bff;
             font-weight: bold;
         }
-        .search-form, .cart-item {
+        .search-form, .product-item {
             text-align: center;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
@@ -64,17 +64,17 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             margin-top: 20px;
         }
-        .cart-item {
+        .product-item {
             transition: transform 0.2s;
         }
 
-        .cart-item:hover {
+        .product-item:hover {
             transform: scale(1.1);
         }
 
-        .cart-list {
+        .product-list {
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
             justify-content: center;
             gap: 10px;
         }
@@ -181,5 +181,109 @@
     </script>
     <?php
     
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "thuc_pham_chuc_nang";
+
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    if (!$conn) {
+        die("Kết nối thất bại: " . mysqli_connect_error());
+    }
+
+    // Kiểm tra đăng nhập
+    if (!isset($_SESSION['user_id'])) {
+        echo "<h1><p style='color: red; font-weight: bold;'>Vui lòng đăng nhập để tiếp tục.</p></h1>";
+        echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;'><a href='dangnhap.php' style='text-decoration: none; color: white;'>Đăng nhập</a></button>";
+        exit;
+    }
+
+    $user_id = $_SESSION['user_id'];
+
+    // Thêm sản phẩm vào giỏ hàng
+    if (isset($_GET['product_id']) && isset($_GET['quantity'])) {
+        $product_id = $_GET['product_id'];
+        $quantity = $_GET['quantity'];
+        
+        if (!isset($_SESSION['cart'])) {
+            $_SESSION['cart'] = array();
+        }
+        if (isset($_SESSION['cart'][$product_id])) {
+            $_SESSION['cart'][$product_id] += $quantity;
+        } else {
+            $_SESSION['cart'][$product_id] = $quantity;
+        }
+    }
+
+    // Xử lý khi người dùng xác nhận mua hàng
+    if (isset($_POST['confirm_purchase'])) {
+        $order_date = date('Y-m-d H:i:s');
+        $total_amount = 0;
+
+        // Tính tổng tiền
+        foreach ($_SESSION['cart'] as $product_id => $quantity) {
+            $sql = "SELECT gia_mat_hang FROM mat_hang WHERE id = $product_id";
+            $result = mysqli_query($conn, $sql);
+            if ($row = mysqli_fetch_assoc($result)) {
+                $total_amount += $row['gia_mat_hang'] * $quantity;
+            }
+        }
+
+        // Tạo đơn hàng mới
+        $sql = "INSERT INTO don_hang (id_khach_hang, ngay_dat_hang, tong_tien, trang_thai) VALUES ($user_id, '$order_date', $total_amount, 'Đang xử lý')";
+        if (mysqli_query($conn, $sql)) {
+            $order_id = mysqli_insert_id($conn);
+
+            // Thêm chi tiết đơn hàng
+            foreach ($_SESSION['cart'] as $product_id => $quantity) {
+                $sql = "SELECT gia_mat_hang FROM mat_hang WHERE id = $product_id";
+                $result = mysqli_query($conn, $sql);
+                if ($row = mysqli_fetch_assoc($result)) {
+                    $price = $row['gia_mat_hang'];
+                    $sql = "INSERT INTO chi_tiet_don_hang (id_don_hang, id_hang_hoa, so_luong, gia) VALUES ($order_id, $product_id, $quantity, $price)";
+                    mysqli_query($conn, $sql);
+                }
+            }
+
+            // Xóa giỏ hàng sau khi đã lưu vào database
+            unset($_SESSION['cart']);
+            echo "<p style='color: green;'>Đơn hàng của bạn đã được xác nhận!</p>";
+        } else {
+            echo "<p style='color: red;'>Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại.</p>";
+        }
+    }
+
+    
+    echo "<h1>Giỏ hàng của bạn</h1>";
+    if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+        echo "<form method='POST'>";
+        echo "<table border='1'>";
+        echo "<tr><th>Sản phẩm</th><th>Số lượng</th><th>Giá</th><th>Tổng</th></tr>";
+        $total = 0;
+        foreach ($_SESSION['cart'] as $product_id => $quantity) {
+            $sql = "SELECT * FROM mat_hang WHERE id = $product_id";
+            $result = mysqli_query($conn, $sql);
+            if ($row = mysqli_fetch_assoc($result)) {
+                $subtotal = $row['gia_mat_hang'] * $quantity;
+                $total += $subtotal;
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($row['ten_mat_hang']) . "</td>";
+                echo "<td>$quantity</td>";
+                echo "<td>" . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</td>";
+                echo "<td>" . number_format($subtotal, 0, ',', '.') . " VNĐ</td>";
+                echo "</tr>";
+            }
+        }
+        echo "<tr><td colspan='3'>Tổng cộng:</td><td>" . number_format($total, 0, ',', '.') . " VNĐ</td></tr>";
+        echo "</table>";
+        echo "<button type='submit' name='confirm_purchase' style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;'>Xác nhận mua hàng</button>";
+        echo "</form>";
+    } else {
+        echo "<p>Giỏ hàng của bạn đang trống.</p>";
+    }
+
+    echo "<a href='sanphamchitiet.php' style='display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff;'>Quay lại trang sản phẩm</a>";
+
+    mysqli_close($conn);
     ?>
 </html>

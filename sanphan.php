@@ -128,10 +128,9 @@
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
-                                                echo "<li><a class='dropdown-item' href='thucphamboxung 
-                                                .php'>{$row['loai_mat_hang']}</a></li>";
+                                                echo "<li><a class='dropdown-item' href='thucphamboxung.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "mẹ và bé":
+                                            case "Mẹ và bé":
                                                 echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             default:
@@ -221,7 +220,7 @@
                 echo '<p>Không có hình ảnh</p>';
             }
             // Thay đổi nút chi tiết để dẫn đến trang sản phẩm cụ thể
-            echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanpham.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
+            echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
 
             echo "</div>";
         }
