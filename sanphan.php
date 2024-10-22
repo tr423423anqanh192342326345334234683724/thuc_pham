@@ -7,7 +7,7 @@
     
     <title>Sản phẩm Thực phẩm chức năng</title>
     <style>
-        body {
+       body {
             background-image: url('hihi.jpg');
             background-size: cover;
             background-position: center;
@@ -15,7 +15,6 @@
             display: flex;
             flex-direction: column;
             margin: 0;
-            font-family: Arial, sans-serif;
         }
         h1 {
             text-align: center;
@@ -232,5 +231,10 @@
 
     mysqli_close($conn);
     ?>
+    <br>
+    <br>
+    <br>
+    
+    
 </body>
 </html>

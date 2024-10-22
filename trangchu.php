@@ -213,8 +213,8 @@
         </a></div>
         <div class="product-item mx-2">
         <a href="suimaoga.php" style="text-decoration: none; color: black;">
-            <img src="suimaoga.png" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
-            <h3 >Sùi mào gà là gì? cách đối phó với sùi mào gà</h3>
+            <img src="suimaoga.png" alt="" style="width: 400px; height: 300px; margin-bottom: 10px;">
+            <h3 >Sùi mào gà âm đạo là gì? Mức độ nguy hiểm của bệnh lý này ra sao?</h3>
         </a></div>
         <div class="product-item mx-2">
         <a href="#" style="text-decoration: none; color: black;">
@@ -232,9 +232,54 @@
         <br>
         <br>
         <br>
-        
-        
-
+    <footer class="footer" style="background-color: lightblue; color: black; padding: 40px; width: 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="logo.png" alt="Logo" style="width: 200px; height: auto; margin-top: 20px;margin-left: 550px;">
+                <p>Địa chỉ: 218 Lĩnh Nam, Hoàng Mai, Hà Nội</p>
+                <p>Điện thoại: 0123 456 789</p>
+                <p>Email: Thucphamchucnang.n8@gmail.com</p>
+                <div class="social-icons" style="margin-top: 10px;">
+                    <a href="#" style="color: white; margin-right: 10px;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="color: white; margin-right: 10px;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="color: white; margin-right: 10px;">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" style="color: white;">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 text-center" style="padding-top: 200px;">
+                <h5>Về chúng tôi</h5>
+                <ul class="list-unstyled">
+                    <li><a href="trangchu.php" style="color: black; text-decoration: none;">Trang chủ</a></li>
+                    <li><a href="sanpham.php" style="color: black; text-decoration: none;">Sản phẩm</a></li>
+                    <li><a href="suckhoe.php" style="color: black; text-decoration: none;">Sức khỏe</a></li>
+                    <li><a href="lienhe.php" style="color: black; text-decoration: none;">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 text-center" style="padding-top: 200px;">
+                <h5>Chính sách</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" style="color: black; text-decoration: none;">Bảo Mật</a></li>
+                    <li><a href="#" style="color: black; text-decoration: none;">Mua Hàng</a></li>
+                    <li><a href="#" style="color: black; text-decoration: none;">Trả Hàng</a></li>
+                    <li><a href="#" style="color: black; text-decoration: none;">Giảm Giá</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; Bản quyền thuộc về N8</p>
+        </div>
+    </div>
+</footer>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     </div>
 </body>

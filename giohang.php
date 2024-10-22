@@ -193,8 +193,11 @@
 
     // Kiểm tra đăng nhập
     if (!isset($_SESSION['user_id'])) {
+        echo "<div class='product-item' style='text-align: center;'>";
         echo "<h1><p style='color: red; font-weight: bold;'>Vui lòng đăng nhập để tiếp tục.</p></h1>";
-        echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;'><a href='dangnhap.php' style='text-decoration: none; color: white;'>Đăng nhập</a></button>";
+        echo "<div style='text-align: center;'>";
+        echo "<button style='background-color: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; font-size: 14px;'><a href='dangnhap.php' style='text-decoration: none; color: white;'>Đăng nhập</a></button>";
+        echo "</div>";
         exit;
     }
 
