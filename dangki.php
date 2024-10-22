@@ -20,10 +20,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat_khau = trim($_POST['mat_khau']);
     $confirm_mat_khau = trim($_POST['confirm_mat_khau']);
 
+    // Kiểm tra xem tên tài khoản đã tồn tại chưa
+    $check_sql = "SELECT * FROM tai_khoan_khach_hang WHERE tai_khoan = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("s", $tai_khoan);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+
     if (empty($tai_khoan) || empty($mat_khau) || empty($confirm_mat_khau)) {
         $error = 'Vui lòng điền đầy đủ thông tin.';
     } elseif ($mat_khau !== $confirm_mat_khau) {
         $error = 'Mật khẩu xác nhận không khớp.';
+    } elseif ($result->num_rows > 0) {
+        $error = 'Tên tài khoản đã tồn tại.';
     } else {
         // Mã hóa mật khẩu trước khi lưu
         $hashed_password = password_hash($mat_khau, PASSWORD_DEFAULT);
@@ -40,16 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Chuyển hướng sang màn hình điền thông tin khách hàng
             header('Location: thongtinkhachhang.php');
             exit();
-        } else {
-            $error = 'Tên tài khoản đã tồn tại.';
         }
 
         $stmt->close();
     }
-}
 
-if ($error) {
-    echo '<p class="error">' . htmlspecialchars($error) . '</p>';
+    $check_stmt->close();
 }
 
 $conn->close();
@@ -115,9 +120,12 @@ $conn->close();
     </style>
 </head>
 <body>
-<<<<<<< HEAD
 
 <h1>Đăng ký hoặc Đăng nhập</h1>
+
+<?php if ($error): ?>
+    <p class="error"><?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?>
 
 <form method="POST" action="">
     <input type="text" name="tai_khoan" placeholder="Tên tài khoản" required><br>
@@ -126,39 +134,7 @@ $conn->close();
     <input type="submit" value="Đăng ký">
 </form>
 
-=======
-    <div class="form-container">
-        <h2>Đăng ký</h2>
-        <?php
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "thuc_pham_chuc_nang";
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("Kết nối thất bại: " . $conn->connect_error);
-        }
-        $sql = "SELECT * FROM tai_khoan_khach_hang";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                if ($row["taikhoan"] == $_POST['taikhoan']) {
-                    $error = 'Tài khoản đã tồn tại.';
-                    break;
-                }
-            }
-        }
-        if(
-       
-        ?>
-        <form method="POST" action="">
-           <input type="text" name="taikhoan" placeholder="Tài khoản" required><br>
-           <input type="password" name="matkhau" placeholder="Mật khẩu" required><br>
-           <input type="password" name="nhaplai" placeholder="Nhập lại mật khẩu" required><br>
-           <input type="submit" value="Đăng ký">
-        </form>
-        <a href="dangnhap.php" class="toggle-link">Đã có tài khoản? Đăng nhập</a>
-    </div>
->>>>>>> aa2543738f8882f1805d605029bfaa3e930ed05c
+<a href="dangnhap.php" class="toggle-link">Đã có tài khoản? Đăng nhập</a>
+
 </body>
 </html>
