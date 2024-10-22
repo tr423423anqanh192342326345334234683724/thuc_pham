@@ -5,16 +5,11 @@ session_start(); // Sử dụng session để lấy id tài khoản đã đăng 
 $servername = "localhost";
 $username = "root";  // Thay bằng username MySQL của bạn
 $password = "";      // Thay bằng mật khẩu MySQL của bạn
-$dbname = "tai_khoan_khach_hang";  // Thay bằng tên database của bạn
+$dbname = "thuc_pham_chuc_nang";  // Thay bằng tên database của bạn
 
 // Tạo kết nối
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
-echo "Kết nối thành công!";
 // Kiểm tra kết nối
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
@@ -56,7 +51,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("issss", $id_tai_khoan, $ten_khach_hang, $email, $so_dien_thoai, $dia_chi);
 
         if ($stmt->execute()) {
-            echo "Đăng ký thành công!";
+            // Đăng nhập cho khách hàng
+            $_SESSION['id_tai_khoan'] = $id_tai_khoan;
+            $_SESSION['ten_khach_hang'] = $ten_khach_hang;
+            $_SESSION['email'] = $email;
+            $_SESSION['so_dien_thoai'] = $so_dien_thoai;
+            $_SESSION['dia_chi'] = $dia_chi;
+
+            echo "<p>Đăng ký thông tin thành công! Chào mừng, " . htmlspecialchars($ten_khach_hang) . "!</p>";
+            // Chuyển hướng đến trang đăng nhập
+            header('Location: dangnhap.php'); // Chuyển hướng đến trang đăng nhập
+            exit();
         } else {
             $error = "Lỗi khi lưu thông tin khách hàng.";
         }
@@ -72,6 +77,69 @@ if ($error) {
 $conn->close();
 ?>
 
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông tin khách hàng</title>
+    <style>
+        body {
+            background-color: white; /* Màu nền trắng */
+            color: black; /* Màu chữ đen */
+            font-family: Arial, sans-serif; /* Font chữ */
+            padding: 20px; /* Khoảng cách cho body */
+            text-align: center; /* Căn giữa văn bản */
+        }
+
+        h1 {
+            margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+        }
+
+        form {
+            max-width: 400px; /* Chiều rộng tối đa cho form */
+            margin: auto; /* Căn giữa form */
+            padding: 20px; /* Khoảng cách bên trong form */
+            border: 1px solid #ccc; /* Viền cho form */
+            border-radius: 10px; /* Bo tròn góc cho form */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            width: calc(100% - 22px); /* Chiều rộng 100% - padding */
+            padding: 10px; /* Khoảng cách bên trong input */
+            margin: 10px 0; /* Khoảng cách giữa các input */
+            border: 1px solid #ccc; /* Viền cho input */
+            border-radius: 5px; /* Bo tròn góc cho input */
+            box-sizing: border-box; /* Bao gồm padding và border vào kích thước */
+        }
+
+        input[type="submit"] {
+            background-color: #007bff; /* Màu nền nút xanh */
+            color: white; /* Màu chữ trong nút */
+            border: none; /* Không có viền */
+            border-radius: 5px; /* Bo tròn góc nút */
+            padding: 10px 20px; /* Padding cho nút */
+            cursor: pointer; /* Con trỏ chuột chuyển thành hình tay khi hover */
+            transition: background-color 0.3s; /* Hiệu ứng chuyển màu */
+            width: 100%; /* Chiều rộng 100% */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Màu nền nút khi hover */
+        }
+
+        .error {
+            color: red; /* Màu chữ đỏ cho thông báo lỗi */
+            margin-bottom: 15px; /* Khoảng cách dưới thông báo lỗi */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Thông tin khách hàng</h1>
+
 <form method="POST" action="">
     <input type="email" name="email" placeholder="Email" required><br>
     <input type="text" name="so_dien_thoai" placeholder="Số điện thoại" required><br>
@@ -79,3 +147,6 @@ $conn->close();
     <input type="text" name="ten_khach_hang" placeholder="Họ và Tên" required><br>
     <input type="submit" value="Hoàn tất đăng ký">
 </form>
+
+</body>
+</html>
