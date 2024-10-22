@@ -237,7 +237,15 @@
                     echo "</div>";
                 }
             } else {
-                echo "<p>Không có sản phẩm liên quan.</p>";
+                echo"<div class='product-item' style='text-align: center; padding-left: 100px;'>";
+                echo "<h3>  Không có sản phẩm liên quan.</h3>";
+                
+                echo"</div>";
+                echo"<br>";
+                echo"<br>";
+                echo"<div class='product-item mx2' style='text-align: center;'>";
+                echo"<h4>Hãy Thử Tìm Kiếm Sản Phẩm</h4>";
+                echo"</div>";
             }
         }
 
@@ -248,5 +256,6 @@
         <br>
         
     </div>
+    
 </body>
 </html>
