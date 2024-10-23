@@ -1,5 +1,5 @@
 <?php
-session_start(); // Khởi tạo session
+session_start(); // Sử dụng session để lấy id tài khoản đã đăng ký
 
 // Kết nối đến cơ sở dữ liệu
 $servername = "localhost";
@@ -19,54 +19,51 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Nhận dữ liệu từ form
-    $tai_khoan = trim($_POST['tai_khoan']);
-    $mat_khau = trim($_POST['mat_khau']);
+    $email = trim($_POST['email']);
+    $so_dien_thoai = trim($_POST['so_dien_thoai']);
+    $dia_chi = trim($_POST['dia_chi']);
+    $ten_khach_hang = trim($_POST['ten_khach_hang']);
 
     // Kiểm tra thông tin
-    if (empty($tai_khoan) || empty($mat_khau)) {
+    if (empty($email) || empty($so_dien_thoai) || empty($dia_chi) || empty($ten_khach_hang)) {
         $error = 'Vui lòng điền đầy đủ thông tin.';
+    } elseif (!is_numeric($so_dien_thoai) || strlen($so_dien_thoai) != 10) {
+        $error = 'Số điện thoại phải đủ 10 số.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'Email không hợp lệ.';
+    } elseif (!preg_match("/^[a-zA-Z\s]+$/", $ten_khach_hang)) {
+        $error = 'Họ và Tên chỉ được chứa ký tự chữ cái.';
     } else {
-        // Kiểm tra tên đăng nhập và mật khẩu
-        $sql = "SELECT id, mat_khau FROM tai_khoan_khach_hang WHERE tai_khoan = ?";
+        // Lấy id_tai_khoan từ bảng tai_khoan_khach_hang dựa trên session
+        $tai_khoan = $_SESSION['tai_khoan'];
+        $sql = "SELECT id FROM tai_khoan_khach_hang WHERE tai_khoan = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $tai_khoan);
         $stmt->execute();
-        $stmt->store_result();
-        
-        if ($stmt->num_rows > 0) {
-            // Nếu tài khoản tồn tại, kiểm tra mật khẩu
-            $stmt->bind_result($id, $hashed_password);
-            $stmt->fetch();
+        $stmt->bind_result($id_tai_khoan);
+        $stmt->fetch();
+        $stmt->close();
 
-            // Kiểm tra mật khẩu
-            if (password_verify($mat_khau, $hashed_password)) {
-                // Lưu thông tin vào session
-                $_SESSION['tai_khoan'] = $tai_khoan;
-                $_SESSION['id_tai_khoan'] = $id;
+        // Thêm thông tin khách hàng vào bảng khach_hang
+        $sql = "INSERT INTO khach_hang (id_tai_khoan, ten_khach_hang, email, so_dien_thoai, dia_chi)
+                VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("issss", $id_tai_khoan, $ten_khach_hang, $email, $so_dien_thoai, $dia_chi);
 
-                // Lấy thông tin khách hàng từ bảng khach_hang
-                $sql = "SELECT * FROM khach_hang WHERE id_tai_khoan = ?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("i", $id);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                
-                if ($result->num_rows > 0) {
-                    $khach_hang = $result->fetch_assoc();
-                    $_SESSION['ten_khach_hang'] = $khach_hang['ten_khach_hang'];
-                    $_SESSION['email'] = $khach_hang['email'];
-                    $_SESSION['so_dien_thoai'] = $khach_hang['so_dien_thoai'];
-                    $_SESSION['dia_chi'] = $khach_hang['dia_chi'];
-                }
+        if ($stmt->execute()) {
+            // Đăng nhập cho khách hàng
+            $_SESSION['id_tai_khoan'] = $id_tai_khoan;
+            $_SESSION['ten_khach_hang'] = $ten_khach_hang;
+            $_SESSION['email'] = $email;
+            $_SESSION['so_dien_thoai'] = $so_dien_thoai;
+            $_SESSION['dia_chi'] = $dia_chi;
 
-                // Chuyển hướng đến trang chủ trangchu.php
-                header('Location: trangchu.php');
-                exit();
-            } else {
-                $error = 'Mật khẩu không đúng.';
-            }
+            echo "<p>Đăng ký thông tin thành công! Chào mừng, " . htmlspecialchars($ten_khach_hang) . "!</p>";
+            // Chuyển hướng đến trang đăng nhập
+            header('Location: dangnhap.php'); // Chuyển hướng đến trang đăng nhập
+            exit();
         } else {
-            $error = 'Tên tài khoản không tồn tại.';
+            $error = "Lỗi khi lưu thông tin khách hàng.";
         }
 
         $stmt->close();
@@ -85,7 +82,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
+    <title>Thông tin khách hàng</title>
     <style>
         body {
             background-color: white; /* Màu nền trắng */
@@ -108,8 +105,8 @@ $conn->close();
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
         }
 
-        input[type="text"],
-        input[type="password"] {
+        input[type="email"],
+        input[type="text"] {
             width: calc(100% - 22px); /* Chiều rộng 100% - padding */
             padding: 10px; /* Khoảng cách bên trong input */
             margin: 10px 0; /* Khoảng cách giữa các input */
@@ -141,12 +138,14 @@ $conn->close();
 </head>
 <body>
 
-<h1>Đăng nhập</h1>
+<h1>Thông tin khách hàng</h1>
 
 <form method="POST" action="">
-    <input type="text" name="tai_khoan" placeholder="Tên tài khoản" required><br>
-    <input type="password" name="mat_khau" placeholder="Mật khẩu" required><br>
-    <input type="submit" value="Đăng nhập">
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="text" name="so_dien_thoai" placeholder="Số điện thoại" required><br>
+    <input type="text" name="dia_chi" placeholder="Địa chỉ" required><br>
+    <input type="text" name="ten_khach_hang" placeholder="Họ và Tên" required><br>
+    <input type="submit" value="Hoàn tất đăng ký">
 </form>
 
 </body>
