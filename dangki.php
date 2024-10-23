@@ -20,10 +20,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mat_khau = trim($_POST['mat_khau']);
     $confirm_mat_khau = trim($_POST['confirm_mat_khau']);
 
+    // Kiểm tra xem tên tài khoản đã tồn tại chưa
+    $check_sql = "SELECT * FROM tai_khoan_khach_hang WHERE tai_khoan = ?";
+    $check_stmt = $conn->prepare($check_sql);
+    $check_stmt->bind_param("s", $tai_khoan);
+    $check_stmt->execute();
+    $result = $check_stmt->get_result();
+
     if (empty($tai_khoan) || empty($mat_khau) || empty($confirm_mat_khau)) {
         $error = 'Vui lòng điền đầy đủ thông tin.';
     } elseif ($mat_khau !== $confirm_mat_khau) {
         $error = 'Mật khẩu xác nhận không khớp.';
+    } elseif ($result->num_rows > 0) {
+        $error = 'Tên tài khoản đã tồn tại.';
     } else {
         // Mã hóa mật khẩu trước khi lưu
         $hashed_password = password_hash($mat_khau, PASSWORD_DEFAULT);
@@ -40,16 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Chuyển hướng sang màn hình điền thông tin khách hàng
             header('Location: thongtinkhachhang.php');
             exit();
-        } else {
-            $error = 'Tên tài khoản đã tồn tại.';
         }
 
         $stmt->close();
     }
-}
 
-if ($error) {
-    echo '<p class="error">' . htmlspecialchars($error) . '</p>';
+    $check_stmt->close();
 }
 
 $conn->close();
@@ -118,12 +123,18 @@ $conn->close();
 
 <h1>Đăng ký hoặc Đăng nhập</h1>
 
+<?php if ($error): ?>
+    <p class="error"><?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?>
+
 <form method="POST" action="">
     <input type="text" name="tai_khoan" placeholder="Tên tài khoản" required><br>
     <input type="password" name="mat_khau" placeholder="Mật khẩu" required><br>
     <input type="password" name="confirm_mat_khau" placeholder="Nhập lại mật khẩu" required><br>
     <input type="submit" value="Đăng ký">
 </form>
+
+<a href="dangnhap.php" class="toggle-link">Đã có tài khoản? Đăng nhập</a>
 
 </body>
 </html>

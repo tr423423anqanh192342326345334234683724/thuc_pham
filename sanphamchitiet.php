@@ -181,7 +181,12 @@
                 $row = mysqli_fetch_assoc($result);
                 echo "<h1>" . htmlspecialchars($row['ten_mat_hang']) . "</h1>";
                 echo "<p><strong>Loại:</strong> " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
-                echo "<p><strong>Công dụng:</strong> " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
+                
+                // Kiểm tra xem cột 'cong_dung_mat_hang' có tồn tại không
+                if (isset($row['cong_dung_mat_hang'])) {
+                    echo "<p><strong>Công dụng:</strong> " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
+                }
+                
                 echo "<p><strong>Giá:</strong> " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
                 
                 
@@ -203,10 +208,11 @@
        ?>
        <br>
        <br>
-       <form method="GET" action="giohang.php">
-           <input type="hidden" name="product_id" value="' . $id . '">
+       <form method="POST" action="giohang.php">
+           <input type="hidden" name="product_id" value="<?php echo $id; ?>">
+           <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
            <input type="number" name="quantity" value="1" min="1" max="10" style="width: 50px; margin-right: 10px;">
-           <button type="submit" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Thêm vào giỏ hàng</button>
+           <button type="submit" name="add_to_cart" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Thêm vào giỏ hàng</button>
        </form>
     </div>
     
@@ -237,7 +243,15 @@
                     echo "</div>";
                 }
             } else {
-                echo "<p>Không có sản phẩm liên quan.</p>";
+                echo"<div class='product-item' style='text-align: center; padding-left: 100px;'>";
+                echo "<h3>  Không có sản phẩm liên quan.</h3>";
+                
+                echo"</div>";
+                echo"<br>";
+                echo"<br>";
+                echo"<div class='product-item mx2' style='text-align: center;'>";
+                echo"<h4>Hãy Thử Tìm Kiếm Sản Phẩm</h4>";
+                echo"</div>";
             }
         }
 
@@ -248,5 +262,6 @@
         <br>
         
     </div>
+    
 </body>
 </html>

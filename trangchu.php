@@ -1,4 +1,8 @@
+<?php
+session_start(); // Đảm bảo session đã được bắt đầu
+?>
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -52,17 +56,35 @@
     <br>
     <div class="container">
     <div style="display: flex; justify-content: flex-end; gap: 20px;">
-        <a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
-            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng kí</button>
-        </a>
+        <?php
+        if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
+            // Người dùng đã đăng nhập
+            echo '<span style="display: flex; align-items: center;">';
+            echo '<img src="anhnguoidung.png" alt="User" style="width: 40px; height: 40px;">';
+            echo '<span style="margin-left: 10px;">Xin chào, ' . htmlspecialchars($_SESSION['ten_khach_hang']) . '</span>';
+            echo '</span>';
+            echo '<a href="logout.php" style="text-decoration: none; color: black; display: flex; align-items: center;">';
+            echo '<button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng xuất</button>';
+            echo '</a>';
+        } else {
+            // Người dùng chưa đăng nhập
+            echo '<a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">';
+            echo '<img src="registered.png" alt="User" style="width: 40px; height: 40px;">';
+            echo '<button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng ký</button>';
+            echo '</a>';
+        }
+        ?>
         <a href="giohang.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
+            <img src="giohang.png" alt="User" style="width: 40px; height: 40px;">
             <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Giỏ hàng</button>
+        </a>
+        <a href="ttnguoidung.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
+            <img src="anhnguoidung.png" alt="User" style="width: 40px; height: 40px;">
+            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Thông tin người dùng</button>
         </a>
     </div>
         <header class="text-center py-4">
-            <h1 class="display-4" style="font-weight: bold;">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
+            <h1 class="display-4" style="font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
         </header>   
         
         <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
@@ -213,8 +235,8 @@
         </a></div>
         <div class="product-item mx-2">
         <a href="suimaoga.php" style="text-decoration: none; color: black;">
-            <img src="suimaoga.png" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
-            <h3 >Sùi mào gà là gì? cách đối phó với sùi mào gà</h3>
+            <img src="suimaoga.png" alt="" style="width: 400px; height: 300px; margin-bottom: 10px;">
+            <h3 >Sùi mào gà âm đạo là gì? Mức độ nguy hiểm của bệnh lý này ra sao?</h3>
         </a></div>
         <div class="product-item mx-2">
         <a href="#" style="text-decoration: none; color: black;">
@@ -232,10 +254,58 @@
         <br>
         <br>
         <br>
-        
-        
-
+    <footer class="footer" style="background-color: lightblue; color: black; padding: 40px; width: 100%;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="logo.png" alt="Logo" style="width: 200px; height: auto; margin-top: 20px;margin-left: 550px;">
+                <p>Địa chỉ: 218 Lĩnh Nam, Hoàng Mai, Hà Nội</p>
+                <p>Điện thoại: 0123 456 789</p>
+                <p>Email: Thucphamchucnang.n8@gmail.com</p>
+                <div class="social-icons" style="margin-top: 10px;">
+                    <a href="#" style="color: white; margin-right: 10px;">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="color: white; margin-right: 10px;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" style="color: white; margin-right: 10px;">
+                        <i class="fab fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" style="color: white;">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 text-center" style="padding-top: 200px;">
+                <h5>Về chúng tôi</h5>
+                <ul class="list-unstyled">
+                    <li><a href="trangchu.php" style="color: black; text-decoration: none;">Trang chủ</a></li>
+                    <li><a href="sanpham.php" style="color: black; text-decoration: none;">Sản phẩm</a></li>
+                    <li><a href="suckhoe.php" style="color: black; text-decoration: none;">Sức khỏe</a></li>
+                    <li><a href="lienhe.php" style="color: black; text-decoration: none;">Liên hệ</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 text-center" style="padding-top: 200px;">
+                <h5>Chính sách</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" style="color: black; text-decoration: none;">Bảo Mật</a></li>
+                    <li><a href="#" style="color: black; text-decoration: none;">Mua Hàng</a></li>
+                    <li><a href="#" style="color: black; text-decoration: none;">Trả Hàng</a></li>
+                    <li><a href="#" style="color: black; text-decoration: none;">Giảm Giá</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; Bản quyền thuộc về N8</p>
+        </div>
+    </div>
+</footer>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     </div>
+
+
+    
 </body>
 </html>
