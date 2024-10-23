@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -53,12 +54,16 @@
     <div class="container">
     <div style="display: flex; justify-content: flex-end; gap: 20px;">
         <a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
+            <img src="registered.png" alt="User" style="width: 40px; height: 40px;">
             <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng kí</button>
         </a>
         <a href="giohang.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="user.png" alt="User" style="width: 40px; height: 40px;">
+            <img src="giohang.png" alt="User" style="width: 40px; height: 40px;">
             <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Giỏ hàng</button>
+        </a>
+        <a href="ttnguoidung.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
+            <img src="anhnguoidung.png" alt="User" style="width: 40px; height: 40px;">
+            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Thông tin người dùng</button>
         </a>
     </div>
         <header class="text-center py-4">
@@ -282,5 +287,8 @@
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     </div>
+
+
+    
 </body>
 </html>
