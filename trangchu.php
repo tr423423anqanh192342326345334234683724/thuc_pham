@@ -62,7 +62,7 @@
         </a>
     </div>
         <header class="text-center py-4">
-            <h1 class="display-4" style="font-weight: bold;">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
+            <h1 class="display-4" style="font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
         </header>   
         
         <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
