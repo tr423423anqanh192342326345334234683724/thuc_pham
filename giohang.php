@@ -3,10 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giỏ Hàng</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-      body {
+        body {
+            background-image: url('hihi.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+</html>
+<?php
+
+// Đặt phần kết nối cơ sở dữ liệu và xử lý session ở đầu file
+session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "thuc_pham_chuc_nang";
+
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+if (!$conn) {
+    die("Kết nối thất bại: " . mysqli_connect_error());
+}
+
+// Kiểm tra nếu người dùng đã đăng nhập
+if (!isset($_SESSION['user_id'])) {
+    echo"<h1 class='text-center'>Vui Lòng Đăng Nhập Trước</h1>";
+    echo"<a href='dangnhap.php' class='btn btn-primary text-center'style='display: block; margin: 0 auto;'>Đăng Nhập</a>";
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Xử lý thêm sản phẩm vào giỏ hàng
+if (isset($_POST['add_to_cart']) && isset($_POST['product_id']) && isset($_POST['quantity'])) {
+    $product_id = $_POST['product_id'];
+    $quantity = $_POST['quantity'];
+    
+    $sql = "INSERT INTO gio_hang (id_khach_hang, id_mat_hang, so_luong) 
+            VALUES (?, ?, ?) 
+            ON DUPLICATE KEY UPDATE so_luong = so_luong + VALUES(so_luong)";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "iii", $user_id, $product_id, $quantity);
+    
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<p class='alert alert-success'>Sản phẩm đã được thêm vào giỏ hàng.</p>";
+    } else {
+        echo "<p class='alert alert-danger'>Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.</p>";
+    }
+    mysqli_stmt_close($stmt);
+}
+
+// Xử lý cập nhật số lượng sản phẩm
+if (isset($_POST['update_cart'])) {
+    foreach ($_POST['quantity'] as $product_id => $quantity) {
+        $sql = "UPDATE gio_hang SET so_luong = ? WHERE id_khach_hang = ? AND id_mat_hang = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "iii", $quantity, $user_id, $product_id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+    echo "<p class='alert alert-success'>Giỏ hàng đã được cập nhật.</p>";
+}
+
+// Xử lý xóa sản phẩm khỏi giỏ hàng
+if (isset($_POST['remove_from_cart'])) {
+    $product_id = $_POST['remove_from_cart'];
+    $sql = "DELETE FROM gio_hang WHERE id_khach_hang = ? AND id_mat_hang = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $user_id, $product_id);
+    if (mysqli_stmt_execute($stmt)) {
+        echo "<p class='alert alert-success'>Sản phẩm đã được xóa khỏi giỏ hàng.</p>";
+    } else {
+        echo "<p class='alert alert-danger'>Có lỗi xảy ra khi xóa sản phẩm khỏi giỏ hàng.</p>";
+    }
+    mysqli_stmt_close($stmt);
+}
+
+// Truy vấn để lấy thông tin các sản phẩm trong giỏ hàng
+$sql = "SELECT g.id_mat_hang, g.so_luong, m.ten_mat_hang, m.gia_mat_hang, m.cong_dung_mat_hang
+        FROM gio_hang g 
+        JOIN mat_hang m ON g.id_mat_hang = m.id 
+        WHERE g.id_khach_hang = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
             background-image: url('hihi.jpg');
             background-size: cover;
             background-position: center;
@@ -16,277 +117,81 @@
             margin: 0;
             font-family: Arial, sans-serif;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 20px;
-            font-size: 24px;
-        }
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .product-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            width: calc(33.33% - 20px);
-            box-sizing: border-box;
-            background-color: #fff;
-            transition: box-shadow 0.3s;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .product-item:hover {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transform: scale(1.05);
-        }
-        img {
-            max-width: 100%;
-            border-radius: 5px;
-            margin: 10px 0;
-        }
-        .back-link {
-            display: block;
-            text-align: center;
-            margin: 20px 0;
-            text-decoration: none;
-            color: #007bff;
-            font-weight: bold;
-        }
-        .search-form, .product-item {
-            text-align: center;
+        .container {
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             margin-top: 20px;
         }
-        .product-item {
-            transition: transform 0.2s;
+        .table {
+            margin-top: 20px;
         }
-
-        .product-item:hover {
-            transform: scale(1.1);
-        }
-
-        .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .dropdown-menu {
-            max-height: 300px;
-            overflow-y: auto;
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
         }
     </style>
 </head>
 <body>
-    
+    <div class="container">
+        <h1 class="text-center">Giỏ hàng của bạn</h1>
+
+        <?php if (mysqli_num_rows($result) > 0): ?>
+            <form method="post" action="">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá</th>
+                            <th>Tổng tiền</th>
+                            <th>Công dụng</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                        $tong_gia_tri_gio_hang = 0;
+                        while ($row = mysqli_fetch_assoc($result)): 
+                            $tong_tien_san_pham = $row['so_luong'] * $row['gia_mat_hang'];
+                            $tong_gia_tri_gio_hang += $tong_tien_san_pham;
+                        ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($row['ten_mat_hang']); ?></td>
+                                <td>
+                                    <input type="number" name="quantity[<?php echo $row['id_mat_hang']; ?>]" value="<?php echo $row['so_luong']; ?>" min="1" max="10" style="width: 50px;">
+                                </td>
+                                <td><?php echo number_format($row['gia_mat_hang'], 0, ',', '.') . ' VNĐ'; ?></td>
+                                <td><?php echo number_format($tong_tien_san_pham, 0, ',', '.') . ' VNĐ'; ?></td>
+                                <td><?php echo htmlspecialchars($row['cong_dung_mat_hang']); ?></td>
+                                <td>
+                                    <button type="submit" name="remove_from_cart" value="<?php echo $row['id_mat_hang']; ?>" class="btn btn-danger btn-sm">Xóa</button>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Tổng giá trị giỏ hàng:</strong></td>
+                            <td colspan="3"><strong><?php echo number_format($tong_gia_tri_gio_hang, 0, ',', '.') . ' VNĐ'; ?></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" name="update_cart" class="btn btn-primary">Cập nhật giỏ hàng</button>
+            </form>
+        <?php else: ?>
+            <p class="text-center">Giỏ hàng của bạn đang trống.</p>
+        <?php endif; ?>
+
+        <a href="sanphan.php" class="btn btn-primary mt-3">Tiếp tục mua sắm</a>
+        <a href="muahang.php" class="btn btn-primary mt-3">Thanh toán</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="trangchu.php" style="padding-top: 100px; transition: transform 0.2s; transform: scale(1.1);   ">
-                    <img src="logo.png" alt="Logo" style="width: 200px; height: auto;">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>   
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item dropdown">
-                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link dropdown-toggle" href="sanphan.php" id="navbarDropdown" role="button">
-                                Sản phẩm
-                            </a>
-                            <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown">
-                                <?php   
-                                $servername = "localhost";
-                                $username = "root";
-                                $password = "";
-                                $dbname = "thuc_pham_chuc_nang";
-
-                                $conn = mysqli_connect($servername, $username, $password, $dbname);
-                                if (!$conn) {
-                                    die("Kết nối thất bại: " . mysqli_connect_error());
-                                }
-
-                                $sql = "SELECT DISTINCT loai_mat_hang FROM mat_hang";
-                                $result = mysqli_query($conn, $sql);
-
-                                if ($result && mysqli_num_rows($result) > 0) {
-                                    while($row = mysqli_fetch_assoc($result)) {
-                                        switch ($row['loai_mat_hang']) {
-                                            case "Vitamins":
-                                                echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
-                                                break;
-                                            case "Khoáng chất":
-                                                echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
-                                                break;
-                                            case "Thực phẩm bổ sung":
-                                                echo "<li><a class='dropdown-item' href='thucphamboxung 
-                                                .php'>{$row['loai_mat_hang']}</a></li>";
-                                                break;
-                                            case "mẹ và bé":
-                                                echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
-                                                break;
-                                            default:
-                                                echo "<li><a class='dropdown-item' href='#'>{$row['loai_mat_hang']}</a></li>";
-                                                break;
-                                        }
-                                    }
-                                }
-                                mysqli_close($conn);
-                                ?>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="gioithieu.php">Giới thiệu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="lienhe.php">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-                <form action="timkiem.php" method="post" class="d-flex" style="flex-grow: 1;">
-                    <input style="width: 600px;" class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
-                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
-                </form>
-                
-            </div>
-        </nav>
-        <script>
-        function showDropdown() {
-            document.getElementById("productDropdown").style.display = 'block';
-        }
-
-        function hideDropdown() {
-            document.getElementById("productDropdown").style.display = 'none';
-        }
-
-
-        const dropdownToggle = document.getElementById("navbarDropdown");
-        const dropdownMenu = document.getElementById("productDropdown");
-
-        if (dropdownToggle && dropdownMenu) {
-            dropdownToggle.addEventListener("mouseenter", showDropdown);
-            dropdownToggle.addEventListener("mouseleave", hideDropdown);
-            dropdownMenu.addEventListener("mouseenter", showDropdown);
-            dropdownMenu.addEventListener("mouseleave", hideDropdown);
-        }
-        
-    </script>
-    <?php
-    
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "thuc_pham_chuc_nang";
-
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-    if (!$conn) {
-        die("Kết nối thất bại: " . mysqli_connect_error());
-    }
-
-    // Kiểm tra đăng nhập
-    if (!isset($_SESSION['user_id'])) {
-        echo "<div class='product-item' style='text-align: center;'>";
-        echo "<h1><p style='color: red; font-weight: bold;'>Vui lòng đăng nhập để tiếp tục.</p></h1>";
-        echo "<div style='text-align: center;'>";
-        echo "<button style='background-color: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px; font-size: 14px;'><a href='dangnhap.php' style='text-decoration: none; color: white;'>Đăng nhập</a></button>";
-        echo "</div>";
-        exit;
-    }
-
-    $user_id = $_SESSION['user_id'];
-
-    // Thêm sản phẩm vào giỏ hàng
-    if (isset($_GET['product_id']) && isset($_GET['quantity'])) {
-        $product_id = $_GET['product_id'];
-        $quantity = $_GET['quantity'];
-        
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = array();
-        }
-        if (isset($_SESSION['cart'][$product_id])) {
-            $_SESSION['cart'][$product_id] += $quantity;
-        } else {
-            $_SESSION['cart'][$product_id] = $quantity;
-        }
-    }
-
-    // Xử lý khi người dùng xác nhận mua hàng
-    if (isset($_POST['confirm_purchase'])) {
-        $order_date = date('Y-m-d H:i:s');
-        $total_amount = 0;
-
-        // Tính tổng tiền
-        foreach ($_SESSION['cart'] as $product_id => $quantity) {
-            $sql = "SELECT gia_mat_hang FROM mat_hang WHERE id = $product_id";
-            $result = mysqli_query($conn, $sql);
-            if ($row = mysqli_fetch_assoc($result)) {
-                $total_amount += $row['gia_mat_hang'] * $quantity;
-            }
-        }
-
-        // Tạo đơn hàng mới
-        $sql = "INSERT INTO don_hang (id_khach_hang, ngay_dat_hang, tong_tien, trang_thai) VALUES ($user_id, '$order_date', $total_amount, 'Đang xử lý')";
-        if (mysqli_query($conn, $sql)) {
-            $order_id = mysqli_insert_id($conn);
-
-            // Thêm chi tiết đơn hàng
-            foreach ($_SESSION['cart'] as $product_id => $quantity) {
-                $sql = "SELECT gia_mat_hang FROM mat_hang WHERE id = $product_id";
-                $result = mysqli_query($conn, $sql);
-                if ($row = mysqli_fetch_assoc($result)) {
-                    $price = $row['gia_mat_hang'];
-                    $sql = "INSERT INTO chi_tiet_don_hang (id_don_hang, id_hang_hoa, so_luong, gia) VALUES ($order_id, $product_id, $quantity, $price)";
-                    mysqli_query($conn, $sql);
-                }
-            }
-
-            // Xóa giỏ hàng sau khi đã lưu vào database
-            unset($_SESSION['cart']);
-            echo "<p style='color: green;'>Đơn hàng của bạn đã được xác nhận!</p>";
-        } else {
-            echo "<p style='color: red;'>Có lỗi xảy ra khi xử lý đơn hàng. Vui lòng thử lại.</p>";
-        }
-    }
-
-    
-    echo "<h1>Giỏ hàng của bạn</h1>";
-    if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-        echo "<form method='POST'>";
-        echo "<table border='1'>";
-        echo "<tr><th>Sản phẩm</th><th>Số lượng</th><th>Giá</th><th>Tổng</th></tr>";
-        $total = 0;
-        foreach ($_SESSION['cart'] as $product_id => $quantity) {
-            $sql = "SELECT * FROM mat_hang WHERE id = $product_id";
-            $result = mysqli_query($conn, $sql);
-            if ($row = mysqli_fetch_assoc($result)) {
-                $subtotal = $row['gia_mat_hang'] * $quantity;
-                $total += $subtotal;
-                echo "<tr>";
-                echo "<td>" . htmlspecialchars($row['ten_mat_hang']) . "</td>";
-                echo "<td>$quantity</td>";
-                echo "<td>" . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</td>";
-                echo "<td>" . number_format($subtotal, 0, ',', '.') . " VNĐ</td>";
-                echo "</tr>";
-            }
-        }
-        echo "<tr><td colspan='3'>Tổng cộng:</td><td>" . number_format($total, 0, ',', '.') . " VNĐ</td></tr>";
-        echo "</table>";
-        echo "<button type='submit' name='confirm_purchase' style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; margin-top: 20px;'>Xác nhận mua hàng</button>";
-        echo "</form>";
-    } else {
-        echo "<p>Giỏ hàng của bạn đang trống.</p>";
-    }
-
-    echo "<a href='sanphamchitiet.php' style='display: inline-block; margin-top: 20px; text-decoration: none; color: #007bff;'>Quay lại trang sản phẩm</a>";
-
-    mysqli_close($conn);
-    ?>
 </html>
+
+<?php
+// Đóng kết nối cơ sở dữ liệu
+mysqli_close($conn);
+?>

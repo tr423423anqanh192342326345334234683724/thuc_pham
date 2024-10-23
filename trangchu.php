@@ -1,3 +1,6 @@
+<?php
+session_start(); // Đảm bảo session đã được bắt đầu
+?>
 <!DOCTYPE html>
 
 <html lang="vi">
@@ -53,10 +56,24 @@
     <br>
     <div class="container">
     <div style="display: flex; justify-content: flex-end; gap: 20px;">
-        <a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="registered.png" alt="User" style="width: 40px; height: 40px;">
-            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng kí</button>
-        </a>
+        <?php
+        if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
+            // Người dùng đã đăng nhập
+            echo '<span style="display: flex; align-items: center;">';
+            echo '<img src="anhnguoidung.png" alt="User" style="width: 40px; height: 40px;">';
+            echo '<span style="margin-left: 10px;">Xin chào, ' . htmlspecialchars($_SESSION['ten_khach_hang']) . '</span>';
+            echo '</span>';
+            echo '<a href="logout.php" style="text-decoration: none; color: black; display: flex; align-items: center;">';
+            echo '<button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng xuất</button>';
+            echo '</a>';
+        } else {
+            // Người dùng chưa đăng nhập
+            echo '<a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">';
+            echo '<img src="registered.png" alt="User" style="width: 40px; height: 40px;">';
+            echo '<button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng ký</button>';
+            echo '</a>';
+        }
+        ?>
         <a href="giohang.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
             <img src="giohang.png" alt="User" style="width: 40px; height: 40px;">
             <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Giỏ hàng</button>

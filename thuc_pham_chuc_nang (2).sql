@@ -79,6 +79,17 @@ CREATE TABLE `mat_hang` (
   `hinh_anh` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+CREATE TABLE `gio_hang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_khach_hang` int(11) NOT NULL,
+  `id_mat_hang` int(11) NOT NULL,
+  `so_luong` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_khach_hang_id_mat_hang` (`id_khach_hang`, `id_mat_hang`),
+  FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
+  FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- --------------------------------------------------------
 
 --

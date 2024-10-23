@@ -59,6 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['dia_chi'] = $khach_hang['dia_chi'];
                 }
 
+                // Sau khi xác thực thành công
+                $_SESSION['user_id'] = $id;
+                $_SESSION['ten_khach_hang'] = $khach_hang['ten_khach_hang'];
+
                 // Chuyển hướng đến trang chủ trangchu.php
                 header('Location: trangchu.php');
                 exit();
