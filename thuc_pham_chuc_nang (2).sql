@@ -30,34 +30,7 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `thuc_pham_chuc_nang`;
 USE `thuc_pham_chuc_nang`;
 
-CREATE TABLE `chi_tiet_don_hang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_don_hang` int(11) NOT NULL,
-  `id_hang_hoa` int(11) NOT NULL,
-  `so_luong` int(11) NOT NULL,
-  `gia` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_don_hang` (`id_don_hang`),
-  KEY `id_hang_hoa` (`id_hang_hoa`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Cấu trúc bảng cho bảng `don_hang`
---
-
-CREATE TABLE `don_hang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_khach_hang` int(11) DEFAULT NULL,
-  `ngay_dat_hang` datetime DEFAULT NULL,
-  `tong_tien` decimal(10,2) DEFAULT NULL,
-  `trang_thai` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_khach_hang` (`id_khach_hang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Cấu trúc bảng cho bảng `khach_hang`
---
 
 CREATE TABLE `khach_hang` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -84,6 +57,21 @@ CREATE TABLE `mat_hang` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+
+CREATE TABLE `gio_hang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_khach_hang` int(11) NOT NULL,
+  `id_mat_hang` int(11) NOT NULL,
+  `so_luong` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_khach_hang_id_mat_hang` (`id_khach_hang`, `id_mat_hang`),
+  FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
+  FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- --------------------------------------------------------
+
+
 --
 -- Cấu trúc bảng cho bảng `tai_khoan_khach_hang`
 --
@@ -96,26 +84,7 @@ CREATE TABLE `tai_khoan_khach_hang` (
   UNIQUE KEY `tai_khoan` (`tai_khoan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Các ràng buộc cho các bảng đã đổ
---
 
---
--- Các ràng buộc cho bảng `chi_tiet_don_hang`
---
-ALTER TABLE `chi_tiet_don_hang`
-  ADD CONSTRAINT `chi_tiet_don_hang_ibfk_1` FOREIGN KEY (`id_don_hang`) REFERENCES `don_hang` (`id`),
-  ADD CONSTRAINT `chi_tiet_don_hang_ibfk_2` FOREIGN KEY (`id_hang_hoa`) REFERENCES `mat_hang` (`id`);
-
---
--- Các ràng buộc cho bảng `don_hang`
---
-ALTER TABLE `don_hang`
-  ADD CONSTRAINT `don_hang_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`);
-
---
--- Các ràng buộc cho bảng `khach_hang`
---
 ALTER TABLE `khach_hang`
   ADD CONSTRAINT `khach_hang_ibfk_1` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoan_khach_hang` (`id`);
 
