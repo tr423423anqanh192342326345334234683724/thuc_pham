@@ -228,7 +228,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
     <h1 style="padding-left: 20px;"><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
     <div class="product-list d-flex justify-content-center">
         <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
+        <a href="diung.php" style="text-decoration: none; color: black;">
 
             <img src="diung.jpg" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
             <h3 > Dị ứng là gì? cách đối phó với dị ứng </h3>
@@ -239,7 +239,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
             <h3 >Sùi mào gà âm đạo là gì? Mức độ nguy hiểm của bệnh lý này ra sao?</h3>
         </a></div>
         <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
+        <a href="vonglung.php" style="text-decoration: none; color: black;">
             <img src="vonglung.png" alt="" style="width: 300px  ; height: 300px;">
             <h3 >Bệnh võng mạch có thể chữa được không? cách chữa võng lưng</h3>
         </a></div>

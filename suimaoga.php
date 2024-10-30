@@ -76,6 +76,7 @@
             border-radius: 10px;
         }
     </style>
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
@@ -130,6 +131,8 @@
             </div>
         </div>
     </nav>
+    <br>
+    <br>
 
     <div class="content">
         <img src="suimaoga.png" alt="" class="hero-img">
