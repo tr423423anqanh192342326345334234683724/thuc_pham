@@ -101,7 +101,7 @@
                                             case "Vitamins":
                                                 echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "Khoáng chất":
+                                            case "Kháng Chất":
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
@@ -156,7 +156,8 @@
         }
         
     </script>
-
+<br>
+<br>    
 <div class="container my-5">
     <h1>Danh sách sản phẩm Thực Phẩm Bổ Sung</h1>
     <div class="product-list">
@@ -180,8 +181,16 @@
         // Hiển thị dữ liệu
         if (count($products) > 0) {
             foreach ($products as $product): ?>
-                <div class="col-md-4 mb-4 product-item">
-                    <img src="<?php echo htmlspecialchars($product['hinh_anh']); ?>" alt="<?php echo htmlspecialchars($product['ten_mat_hang']); ?>">
+                <div class="col-md-4 mb-4 product-item" style = "background-color: white;">
+                   <?php
+                   $imageData = $product['hinh_anh'];
+                   if (!empty($imageData)) {
+                    $imageData = base64_encode($imageData);
+                    echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" class="img-fluid" style="width: 200px; height: 200px;">';
+                } else {
+                        echo '<img src="vitamin.jpg" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
+                    }
+                   ?>
                     <h5 class="card-title"><?php echo htmlspecialchars($product['ten_mat_hang']); ?></h5>
                     <p class="card-text"><?php echo number_format($product['gia_mat_hang'], 0, ',', '.') . " VND"; ?></p>
                     <a href="sanphamchitiet.php?id=<?php echo $product['id']; ?>" class="btn btn-primary">Chi Tiết</a>
@@ -196,6 +205,6 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

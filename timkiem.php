@@ -37,17 +37,96 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center">Kết Quả Tìm Kiếm</h1>
+<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="trangchu.php" style="padding-top: 100px; transition: transform 0.2s; transform: scale(1.1);   ">
+                    <img src="logo.png" alt="Logo" style="width: 200px; height: auto;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>   
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item dropdown">
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link dropdown-toggle" href="sanphan.php" id="navbarDropdown" role="button">
+                                Sản phẩm
+                            </a>
+                            <ul class="dropdown-menu" id="productDropdown" aria-labelledby="navbarDropdown">
+                                <?php   
+                                $servername = "localhost";
+                                $username = "root";
+                                $password = "";
+                                $dbname = "thuc_pham_chuc_nang";
+
+                                $conn = mysqli_connect($servername, $username, $password, $dbname);
+                                if (!$conn) {
+                                    die("Kết nối thất bại: " . mysqli_connect_error());
+                                }
+
+                                $sql = "SELECT DISTINCT loai_mat_hang FROM mat_hang";
+                                $result = mysqli_query($conn, $sql);
+
+                                if ($result && mysqli_num_rows($result) > 0) {
+                                    while($row = mysqli_fetch_assoc($result)) {
+                                        switch ($row['loai_mat_hang']) {
+                                            case "Vitamins":
+                                                echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            case "Kháng Chất":
+                                                echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            case "Thực phẩm bổ sung":
+                                                echo "<li><a class='dropdown-item' href='thucphamboxung.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            case "Mẹ và bé":
+                                                echo "<li><a class='dropdown-item' href='mevabe.php'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                            default:
+                                                echo "<li><a class='dropdown-item' href='#'>{$row['loai_mat_hang']}</a></li>";
+                                                break;
+                                        }
+                                    }
+                                }
+                                mysqli_close($conn);
+                                ?>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="gioithieu.php">Giới thiệu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="text-decoration: none; color: black; font-weight: bold;" class="nav-link" href="lienhe.php">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+                <form action="timkiem.php" method="post" class="d-flex" style="flex-grow: 1;">
+                    <input style="width: 600px;" class="form-control me-2" type="text" name="search" placeholder="Tìm kiếm sản phẩm" required>
+                    <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                </form>
+                
+            </div>
+        </nav>
+        <script>
+        function showDropdown() {
+            document.getElementById("productDropdown").style.display = 'block';
+        }
+
+        function hideDropdown() {
+            document.getElementById("productDropdown").style.display = 'none';
+        }
+
+
+        const dropdownToggle = document.getElementById("navbarDropdown");
+        const dropdownMenu = document.getElementById("productDropdown");
+
+        if (dropdownToggle && dropdownMenu) {
+            dropdownToggle.addEventListener("mouseenter", showDropdown);
+            dropdownToggle.addEventListener("mouseleave", hideDropdown);
+            dropdownMenu.addEventListener("mouseenter", showDropdown);
+            dropdownMenu.addEventListener("mouseleave", hideDropdown);
+        }
         
-        <div class="button-group">
-            <form action="trangchu.php" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-secondary">Trang chủ</button>
-            </form>
-            <form action="muahang.php" method="post" style="display: inline;">
-                <button type="submit" class="btn btn-primary">Mua hàng</button>
-            </form>
-        </div>
+    </script>
 
         <?php
         $servername = "localhost";
@@ -74,13 +153,15 @@
             // Hiển thị kết quả
             if (mysqli_num_rows($result) > 0) {
                 while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='search-result'>";
+                    echo "<div class='search-result' style = 'text-align: center;'>";
                     echo "<h4>" . htmlspecialchars($row['ten_mat_hang']) . "</h4>"; 
-                    echo "<p><strong>Loại:</strong> " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
-                    echo "<p><strong>Công dụng:</strong> " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
+                    echo "<p><strong>Loại:</strong> " . htmlspecialchars($row['loai_mat_hang']) . "</p>";   
                     echo "<p><strong>Giá:</strong> " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>"; 
                     echo '<img src="data:image/jpeg;base64,' . base64_encode($row['hinh_anh']) . '" alt="Hình ảnh sản phẩm">';
+                    echo "<br>";
+                    echo "<a href='sanphamchitiet.php?id=" . $row['id'] . "' class='btn btn-primary'>Chi tiết</a>";
                     echo "</div>";
+                    
                 }
             } else {
                 echo "<div class='search-result'><p>Không tìm thấy sản phẩm nào.</p></div>";

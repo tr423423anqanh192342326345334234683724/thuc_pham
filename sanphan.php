@@ -123,7 +123,7 @@
                                             case "Vitamins":
                                                 echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "Khoáng chất":
+                                            case "Kháng Chất":
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
@@ -204,21 +204,22 @@
 
   
     if ($result && mysqli_num_rows($result) > 0) {
-        echo "<div class='product-list'>";
+        echo "<div class='product-list' style = 'background-color: white;'>";
         while($row = mysqli_fetch_assoc($result)) {
             echo "<div class='product-item'>";
             echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
             echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
-            echo "<p>Công dụng: " . htmlspecialchars($row['cong_dung_mat_hang']) . "</p>";
+            
             echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
             
             if (!empty($row['hinh_anh'])) {
                 $imageData = base64_encode($row['hinh_anh']);
-                echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" style="width: 300px; height: auto;">';
             } else {
                 echo '<p>Không có hình ảnh</p>';
             }
             // Thay đổi nút chi tiết để dẫn đến trang sản phẩm cụ thể
+            echo"<br>";
             echo "<br>";
             echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
 

@@ -67,13 +67,26 @@
             color: #0056b3;
             font-weight: bold;
         }
-        .footer {
+        .comment-section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        .comment-section textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .comment-section button {
             background-color: #0056b3;
-            color: #fff;
-            padding: 15px;
-            text-align: center;
-            margin-top: 30px;
-            border-radius: 10px;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
 

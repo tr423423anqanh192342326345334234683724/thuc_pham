@@ -66,7 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Chuyển hướng đến trang chủ trangchu.php
                 header('Location: trangchu.php');
                 exit();
-            } else {
+            } 
+            elseif ($tai_khoan == 'admin' && $mat_khau == 'admin') {
+                header('Location: admin.php');
+                exit();
+            }
+            else {
                 $error = 'Mật khẩu không đúng.';
             }
         } else {
@@ -92,7 +97,7 @@ $conn->close();
     <title>Đăng nhập</title>
     <style>
         body {
-            background-color: white; /* Màu nền trắng */
+            background-image: url('hihi.jpg'); /* Màu nền trắng */
             color: black; /* Màu chữ đen */
             font-family: Arial, sans-serif; /* Font chữ */
             padding: 20px; /* Khoảng cách cho body */
