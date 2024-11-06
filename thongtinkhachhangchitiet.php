@@ -123,7 +123,7 @@
         <div class="text-center mt-4">
             <button onclick="toggleEdit()" id="editBtn" class="btn btn-warning">Chỉnh sửa thông tin</button>
             <a href="trangchu.php" class="btn btn-primary">Về trang chủ</a>
-            <a href="logout.php" class="btn btn-danger">Đăng Xuất</a>
+            
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

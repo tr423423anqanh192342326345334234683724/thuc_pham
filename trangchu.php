@@ -71,6 +71,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
             } else {
                 echo '<img src="registered.png" alt="User" style="width: 40px; height: 40px;">';
                 echo '<span style="margin-left: 10px;">Đăng ký</span>';
+            
             }
             ?>
         </button>
@@ -79,8 +80,10 @@ session_start(); // Đảm bảo session đã được bắt đầu
             if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
                 echo '<li><a class="dropdown-item" href="thongtinkhachhangchitiet.php">Thông Tin Cá Nhân</a></li>';
                 echo '<li><a class="dropdown-item" href="giohang.php">Giỏ Hàng Của Bạn</a></li>';
+                echo '<li><a class="dropdown-item" href="logout.php">Đăng xuất</a></li>';
             } else {
                 echo '<li><a class="dropdown-item" href="dangki.php">Đăng ký</a></li>';
+                echo '<li><a class="dropdown-item" href="dangnhap.php">Đăng nhập</a></li>';
                 
             }
             ?>
@@ -201,7 +204,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
                 }
 
     
-                $sql = "SELECT * FROM mat_hang WHERE id IN ( 15,25,33)";
+                $sql = "SELECT * FROM mat_hang WHERE id IN ( 1,3,16)";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result && mysqli_num_rows($result) > 0) {
@@ -270,7 +273,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
         <div class="product-item mx-2">
         <a href="vonglung.php" style="text-decoration: none; color: black;">
             <img src="vonglung.png" alt="" style="width: 300px  ; height: 300px;">
-            <h3 >Bệnh võng mạch có thể chữa được không? cách chữa võng lưng</h3>
+            <h3 >Bệnh võng lưng  có thể chữa được không? cách chữa võng lưng</h3>
         </a></div>
     </div>
 </div>
@@ -283,62 +286,52 @@ session_start(); // Đảm bảo session đã được bắt đầu
         <br>
         <br>
         <br>
-    <footer class="footer" style="background-color: lightblue; color: black; padding: 40px; width: 100%;">
+    <footer class="footer" style="background-color:lightblue; color: black; padding: 40px; width: 100%; box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);">
     <div class="container">
         <div class="row">
+        <img src="logo.png" alt="Logo" style="width: 200px; height: auto; margin-top: 20px;">
             <div class="col-md-4 text-center">
-                <img src="logo.png" alt="Logo" style="width: 200px; height: auto; margin-top: 20px;margin-left: 550px;">
-                <p>Nhóm 8</p>
-                <p>Trần Quang Anh-18/06/2003</p>
-                <p>Giáp Mạnh Đức-18/06/2003</p>
-                <p>Trương Quốc Tuyên-18/06/2003</p>
-                <div class="social-icons" style="margin-top: 10px;">
-                    <a href="#" style="color: white; margin-right: 10px;">
+                <div class="social-icons" style="margin-top: 20px;">
+                <h5 style="font-weight: bold;">Nhóm 8</h5>
+                <p>Trần Quang Anh - 18/06/2003</p>
+                <p>Giáp Mạnh Đức - 14/10/2003</p>
+                <p>Trương Quốc Tuyên - 19/06/2003</p>
+                </div>
+                <div class="social-icons" style="margin-top: 20px;">
+                    <a href="#" style="color: #343a40; margin-right: 10px;">
                         <i class="fab fa-facebook-f"></i>
                     </a>
-                    <a href="#" style="color: white; margin-right: 10px;">
+                    <a href="#" style="color: #343a40; margin-right: 10px;">
                         <i class="fab fa-twitter"></i>
                     </a>
-                    <a href="#" style="color: white; margin-right: 10px;">
+                    <a href="#" style="color: #343a40; margin-right: 10px;">
                         <i class="fab fa-google-plus-g"></i>
                     </a>
-                    <a href="#" style="color: white;">
+                    <a href="#" style="color: #343a40;">
                         <i class="fab fa-pinterest"></i>
                     </a>
                 </div>
             </div>
-            <div class="col-md-4 text-center" style="padding-top: 200px;">
+            <div class="col-md-4 text-center" style="padding-top: 15px;">
                 <h5>Về chúng tôi</h5>
                 <ul class="list-unstyled">
-                    <li><a href="trangchu.php" style="color: black; text-decoration: none;">Trang chủ</a></li>
-                    <li><a href="sanpham.php" style="color: black; text-decoration: none;">Sản phẩm</a></li>
-                    <li><a href="suckhoe.php" style="color: black; text-decoration: none;">Sức khỏe</a></li>
-                    <li><a href="lienhe.php" style="color: black; text-decoration: none;">Liên hệ</a></li>
+                    <li><a href="trangchu.php" style="color: #343a40; text-decoration: none;">Trang chủ</a></li>
+                    <li><a href="sanphan.php" style="color: #343a40; text-decoration: none;">Sản phẩm</a></li>
+                    <li><a href="diung.php" style="color: #343a40; text-decoration: none;">Sức khỏe</a></li>
+                    <li><a href="lienhe.php" style="color: #343a40; text-decoration: none;">Liên hệ</a></li>
                 </ul>
             </div>
-            <div class="col-md-4 text-center" style="padding-top: 200px;">
-                <h5>Chính sách</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" style="color: black; text-decoration: none;">Bảo Mật</a></li>
-                    <li><a href="#" style="color: black; text-decoration: none;">Mua Hàng</a></li>
-                    <li><a href="#" style="color: black; text-decoration: none;">Trả Hàng</a></li>
-                    <li><a href="#" style="color: black; text-decoration: none;">Giảm Giá</a></li>
-                </ul>
-            </div>
+            
         </div>
         <div class="text-center mt-4">
             <p>&copy; Bản quyền thuộc về N8</p>
         </div>
     </div>
-    
 </footer>
 
 
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     </div>
-
-
-    
 </body>
 </html>
