@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -104,6 +108,34 @@
                 margin: 20px 0;
             }
         }
+
+        /* Thêm vào phần style */
+        .form-control {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -124,13 +156,13 @@
             <div class="social-follow">
                 <h3>Theo dõi chúng tôi trên</h3>
                 <p>
-                    <a href="https://www.facebook.com/PharmacityVN" target="_blank">
+                    <a href="https://web.facebook.com/q.anh.tran.1806" target="_blank">
                         <img src="fbb.png" alt="Facebook" style="width: 33px; height: 33px;">
                     </a> 
                     Facebook
                 </p>
                 <p>
-                    <a href="https://www.youtube.com/channel/UC34rPqjyb_WCq6dMu2khYQA" target="_blank">
+                    <a href="https://www.youtube.com/" target="_blank">
                         <img src="youtube.png" alt="Youtube" style="width: 33px; height: 33px;">
                     </a> 
                     Youtube
@@ -140,6 +172,56 @@
                         <img src="zallo.png" alt="Zalo" style="width: 31px; height: 31px;">
                     </a> 
                     Zalo
+                </p>
+                <br>
+                <p> 
+                    <?php
+                    $_local = "localhost";
+                    $_username = "root";
+                    $_password = "";
+                    $_dbname = "thuc_pham_chuc_nang";
+                    $conn = new mysqli($_local, $_username, $_password, $_dbname);  
+
+                    // Thêm kiểm tra kết nối
+                    if ($conn->connect_error) {
+                        die("Kết nối thất bại: " . $conn->connect_error);
+                    }
+
+                    if(!isset($_SESSION['id_tai_khoan'])) {
+                        echo "<p>Vui lòng đăng nhập để gửi tin nhắn</p>";
+                       
+                    } else if(isset($_POST['binhluan'])) {
+                        echo "Debug: Form đã được submit";
+                        var_dump($_POST);
+                        
+                        $id_khach_hang = $_SESSION['id_tai_khoan'];
+                        $ten_khach_hang = $_SESSION['tai_khoan'];
+                        $noi_dung = htmlspecialchars($_POST['noi_dung']);
+                        
+                        echo "Debug: ID=" . $id_khach_hang . ", Tên=" . $ten_khach_hang . ", Nội dung=" . $noi_dung;
+                        
+                        if(empty($noi_dung)) {
+                            echo "<script>alert('Vui lòng nhập nội dung tin nhắn');</script>";
+                        } else {
+                            $sql = "INSERT INTO binh_luan (id_khach_hang, ten_khach_hang, noi_dung) 
+                                   VALUES (?, ?, ?)";
+                            
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("iss", $id_khach_hang, $ten_khach_hang, $noi_dung);
+                            
+                            if($stmt->execute()) {
+                                echo "<script>alert('Gửi tin nhắn thành công');</script>";
+                            } else {
+                                echo "<script>alert('Có lỗi xảy ra, vui lòng thử lại');</script>";
+                            }
+                            $stmt->close();
+                        }
+                    }
+                    ?>
+                    <form method="POST">
+                        <input class="form-control" type="text" name="noi_dung" placeholder="Liên Hệ Trực Tiếp" style="width: 50%;height: 50px;">
+                        <button type="submit" name="binhluan" class="btn btn-primary">Gửi</button>
+                    </form>
                 </p>
             </div>
 

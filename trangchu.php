@@ -1,5 +1,6 @@
 <?php
 session_start(); // Đảm bảo session đã được bắt đầu
+
 ?>
 <!DOCTYPE html>
 
@@ -19,6 +20,8 @@ session_start(); // Đảm bảo session đã được bắt đầu
             flex-direction: column;
             margin: 0;
         }
+        
+        
 
         .search-form, .product-item {
             text-align: center;
@@ -32,6 +35,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
         .product-item {
             transition: transform 0.2s;
         }
+        
 
         .product-item:hover {
             transform: scale(1.1);
@@ -49,6 +53,8 @@ session_start(); // Đảm bảo session đã được bắt đầu
             overflow-y: auto;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
     <br>
@@ -56,32 +62,31 @@ session_start(); // Đảm bảo session đã được bắt đầu
     <br>
     <div class="container">
     <div style="display: flex; justify-content: flex-end; gap: 20px;">
-        <?php
-        if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
-            // Người dùng đã đăng nhập
-            echo '<span style="display: flex; align-items: center;">';
-            echo '<img src="anhnguoidung.png" alt="User" style="width: 40px; height: 40px;">';
-            echo '<span style="margin-left: 10px;">Xin chào, ' . htmlspecialchars($_SESSION['ten_khach_hang']) . '</span>';
-            echo '</span>';
-            echo '<a href="logout.php" style="text-decoration: none; color: black; display: flex; align-items: center;">';
-            echo '<button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng xuất</button>';
-            echo '</a>';
-        } else {
-            // Người dùng chưa đăng nhập
-            echo '<a href="dangki.php" style="text-decoration: none; color: black; display: flex; align-items: center;">';
-            echo '<img src="registered.png" alt="User" style="width: 40px; height: 40px;">';
-            echo '<button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Đăng ký</button>';
-            echo '</a>';
-        }
-        ?>
-        <a href="giohang.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="giohang.png" alt="User" style="width: 40px; height: 40px;">
-            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Giỏ hàng</button>
-        </a>
-        <a href="ttnguoidung.php" style="text-decoration: none; color: black; display: flex; align-items: center;">
-            <img src="anhnguoidung.png" alt="User" style="width: 40px; height: 40px;">
-            <button style="background-color: lightblue; border-radius: 20%; cursor: pointer; margin-left: 10px;">Thông tin người dùng</button>
-        </a>
+        <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <?php
+            if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
+                echo '<img src="hi.gif" alt="User" style="width: 40px; height: 40px;">';
+                echo '<span style="margin-left: 10px;">Xin chào, ' . htmlspecialchars($_SESSION['ten_khach_hang']) . '</span>';
+            } else {
+                echo '<img src="registered.png" alt="User" style="width: 40px; height: 40px;">';
+                echo '<span style="margin-left: 10px;">Đăng ký</span>';
+            }
+            ?>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+            <?php
+            if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
+                echo '<li><a class="dropdown-item" href="thongtinkhachhangchitiet.php">Thông Tin Cá Nhân</a></li>';
+                echo '<li><a class="dropdown-item" href="giohang.php">Giỏ Hàng Của Bạn</a></li>';
+            } else {
+                echo '<li><a class="dropdown-item" href="dangki.php">Đăng ký</a></li>';
+                
+            }
+            ?>
+        </ul>
+        </div>
+        
     </div>
         <header class="text-center py-4">
             <h1 class="display-4" style="font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
@@ -122,7 +127,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
                                             case "Vitamins":
                                                 echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "Khoáng chất":
+                                            case "Kháng Chất":
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
@@ -157,6 +162,30 @@ session_start(); // Đảm bảo session đã được bắt đầu
             </div>
         </nav>
         <br>
+        <br>
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-touch="true">
+            <div class="carousel-inner">
+                <a href="sanphan.php"><div class="carousel-item active">
+                    <img src="quangcao1.png" class="d-block w-100" alt="Banner 1" style="height: 400px; object-fit: cover; border-radius: 10px;">
+                </div></a>
+                <a href="sanphan.php"><div class="carousel-item">
+                    <img src="quangcao2.png" class="d-block w-100" alt="Banner 2" style="height: 400px; object-fit: cover; border-radius: 10px;">
+                </div></a>
+                <a href="sanphan.php"><div class="carousel-item">
+                    <img src="quangcao3.png" class="d-block w-100" alt="Banner 3" style="height: 400px; object-fit: cover; border-radius: 10px;">
+                </div></a>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Trước</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Sau</span>
+            </button>
+        </div>
+        <br>
+        <br>
         <div style="background-color: rgba(255, 255, 255, 0.8); padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
             <h2 style="text-align: center;" class="text-center mb-4"><img src="banchay.png" alt="" style="width: 50px; height: 50px;">Sản Phẩm Nổi Bật</h2>
             <div class="product-list d-flex justify-content-center">
@@ -172,7 +201,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
                 }
 
     
-                $sql = "SELECT * FROM mat_hang ORDER BY RAND() LIMIT 3";
+                $sql = "SELECT * FROM mat_hang WHERE id IN ( 15,25,33)";
                 $result = mysqli_query($conn, $sql);
 
                 if ($result && mysqli_num_rows($result) > 0) {
@@ -184,7 +213,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
                             $imageData = base64_encode($row['hinh_anh']);
                             echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" class="img-fluid" style="width: 200px; height: 200px;">';
                         } else {
-                            echo '<img src="vitamin.jpg" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
+                            echo '<img src="banchay.png" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
                         }
                         
                         echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
@@ -228,7 +257,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
     <h1 style="padding-left: 20px;"><img style="width: 70px; height: 70px;" src="sk.png" alt="">Góc Sức Khỏe</h1>
     <div class="product-list d-flex justify-content-center">
         <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
+        <a href="diung.php" style="text-decoration: none; color: black;">
 
             <img src="diung.jpg" alt="" style="width: 300px; height: 300px; margin-bottom: 10px;">
             <h3 > Dị ứng là gì? cách đối phó với dị ứng </h3>
@@ -239,7 +268,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
             <h3 >Sùi mào gà âm đạo là gì? Mức độ nguy hiểm của bệnh lý này ra sao?</h3>
         </a></div>
         <div class="product-item mx-2">
-        <a href="#" style="text-decoration: none; color: black;">
+        <a href="vonglung.php" style="text-decoration: none; color: black;">
             <img src="vonglung.png" alt="" style="width: 300px  ; height: 300px;">
             <h3 >Bệnh võng mạch có thể chữa được không? cách chữa võng lưng</h3>
         </a></div>
@@ -259,9 +288,10 @@ session_start(); // Đảm bảo session đã được bắt đầu
         <div class="row">
             <div class="col-md-4 text-center">
                 <img src="logo.png" alt="Logo" style="width: 200px; height: auto; margin-top: 20px;margin-left: 550px;">
-                <p>Địa chỉ: 218 Lĩnh Nam, Hoàng Mai, Hà Nội</p>
-                <p>Điện thoại: 0123 456 789</p>
-                <p>Email: Thucphamchucnang.n8@gmail.com</p>
+                <p>Nhóm 8</p>
+                <p>Trần Quang Anh-18/06/2003</p>
+                <p>Giáp Mạnh Đức-18/06/2003</p>
+                <p>Trương Quốc Tuyên-18/06/2003</p>
                 <div class="social-icons" style="margin-top: 10px;">
                     <a href="#" style="color: white; margin-right: 10px;">
                         <i class="fab fa-facebook-f"></i>
@@ -300,7 +330,10 @@ session_start(); // Đảm bảo session đã được bắt đầu
             <p>&copy; Bản quyền thuộc về N8</p>
         </div>
     </div>
+    
 </footer>
+
+
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
     </div>

@@ -3,14 +3,14 @@ session_start(); // Sử dụng session để lấy id tài khoản đã đăng 
 
 // Kết nối đến cơ sở dữ liệu
 $servername = "localhost";
-$username = "root";  // Thay bằng username MySQL của bạn
-$password = "";      // Thay bằng mật khẩu MySQL của bạn
-$dbname = "thuc_pham_chuc_nang";  // Thay bằng tên database của bạn
+$username = "root";  
+$password = "";     
+$dbname = "thuc_pham_chuc_nang";  
 
-// Tạo kết nối
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Kiểm tra kết nối
+
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
@@ -85,7 +85,7 @@ $conn->close();
     <title>Thông tin khách hàng</title>
     <style>
         body {
-            background-color: white; /* Màu nền trắng */
+            background-image: url('hihi.jpg'); /* Màu nền trắng */
             color: black; /* Màu chữ đen */
             font-family: Arial, sans-serif; /* Font chữ */
             padding: 20px; /* Khoảng cách cho body */

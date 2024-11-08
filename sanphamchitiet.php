@@ -102,7 +102,7 @@
                                             case "Vitamins":
                                                 echo "<li><a class='dropdown-item' href='vitamin.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
-                                            case "Khoáng chất":
+                                            case "Kháng Chất":
                                                 echo "<li><a class='dropdown-item' href='khoangchat.php'>{$row['loai_mat_hang']}</a></li>";
                                                 break;
                                             case "Thực phẩm bổ sung":
@@ -211,7 +211,7 @@
        <form method="POST" action="giohang.php">
            <input type="hidden" name="product_id" value="<?php echo $id; ?>">
            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
-           <input type="number" name="quantity" value="1" min="1" max="10" style="width: 50px; margin-right: 10px;">
+           <input type="number" name="quantity" value="1" min="1" max="20" style="width: 50px; margin-right: 10px;">
            <button type="submit" name="add_to_cart" style="background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">Thêm vào giỏ hàng</button>
        </form>
     </div>
@@ -227,14 +227,14 @@
 
             if ($result && mysqli_num_rows($result) > 0) {
                 while($row = mysqli_fetch_assoc($result)) {
-                    echo "<div class='product-item'>";
+                    echo "<div class='product-item' >";
                     echo "<h3>" . htmlspecialchars($row['ten_mat_hang']) . "</h3>";
                     echo "<p>Loại: " . htmlspecialchars($row['loai_mat_hang']) . "</p>";
                     echo "<p>Giá: " . number_format($row['gia_mat_hang'], 0, ',', '.') . " VNĐ</p>";
                     
                     if (!empty($row['hinh_anh'])) {
                         $imageData = base64_encode($row['hinh_anh']);
-                        echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm">';
+                        echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" style="width: 200px; height: 200px;">';
                 
                         echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
                     } else {

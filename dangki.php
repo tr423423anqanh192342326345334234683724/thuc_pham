@@ -68,7 +68,7 @@ $conn->close();
     <title>Đăng ký hoặc Đăng nhập</title>
     <style>
         body {
-            background-color: white; /* Màu nền trắng */
+            background-image: url('hihi.jpg'); /* Màu nền trắng */
             color: black; /* Màu chữ đen */
             font-family: Arial, sans-serif; /* Font chữ */
             padding: 20px; /* Khoảng cách cho body */
