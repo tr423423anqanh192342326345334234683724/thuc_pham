@@ -101,19 +101,15 @@
     </style>
 </head>
 <body>
+    
     <?php
     session_start();
     
     $servername = "localhost";
-    $username = "root";
-    $password = "";
+    $username = "root"; 
+    $password = "";     
     $dbname = "thuc_pham_chuc_nang";  
-
-    $ket_noi = new mysqli($servername, $username, $password, $dbname);
-    if ($ket_noi->connect_error) {
-        die("Kết nối thất bại: " . $ket_noi->connect_error);
-    }
-
+    $ket_noi = mysqli_connect($servername, $username, $password, $dbname);
     // Xử lý cập nhật trạng thái đơn hàng
     if(isset($_POST['cap_nhat_trang_thai'])) {
         $id_don_hang = $_POST['id_don_hang'];
@@ -196,8 +192,13 @@
     <div class="section">
         <h1>Trang Quản Lý</h1>
         <p style="text-align: center;">Xin chào Quản Lý N8</p>
-        
-        <h2>Quản Lý Hàng Hóa</h2>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <a href="#quan-ly-khach-hang" class="btn btn-primary" style="margin: 0 10px;text-decoration: none;">Quản Lý Khách Hàng</a>
+            <a href="#quan-ly-hang-hoa" class="btn btn-primary" style="margin: 0 10px;text-decoration: none;">Quản Lý Hàng Hóa</a>
+            <a href="#quan-ly-don-hang" class="btn btn-primary" style="margin: 0 10px;text-decoration: none;">Quản Lý Đơn Hàng</a>
+            <a href="#thong-ke-binh-luan" class="btn btn-primary" style="margin: 0 10px;text-decoration: none;">Thống Kê Bình Luận</a>
+        </div>
+        <h2 id="quan-ly-hang-hoa">Quản Lý Hàng Hóa</h2>
         <div id="edit-product-form" class="edit-form">
             <form method="POST">
                 <input type="hidden" name="id" id="edit-product-id">
@@ -296,7 +297,7 @@
     </div>
 
     <div class="section">
-        <h2>Quản Lý Khách Hàng</h2>
+        <h2 id="quan-ly-khach-hang">Quản Lý Khách Hàng</h2>
         <div id="edit-customer-form" class="edit-form">
             <form method="POST">
                 <input type="hidden" name="id" id="edit-customer-id">
@@ -354,7 +355,7 @@
     </div>
 
     <div class="section">
-        <h2>Quản Lý Đơn Hàng</h2>
+        <h2 id="quan-ly-don-hang">Quản Lý Đơn Hàng</h2>
         <div id="edit-order-form" class="edit-form">
             <form method="POST">
                 <input type="hidden" name="id_don_hang" id="edit-order-id">
@@ -412,7 +413,7 @@
         </table>
     </div>
     <div class="section">
-            <h2>Thống Kê Bình Luận</h2>
+            <h2 id="thong-ke-binh-luan">Thống Kê Bình Luận</h2>
             <?php
             $thongkebinhluan = "SELECT bl.*, kh.ten_khach_hang 
                                FROM binh_luan bl

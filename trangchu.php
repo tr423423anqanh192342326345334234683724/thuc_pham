@@ -52,6 +52,12 @@ session_start(); // Đảm bảo session đã được bắt đầu
             max-height: 300px;
             overflow-y: auto;
         }
+        .navvitri{
+            position: sticky;
+            top: 0px;
+            z-index: 100;
+            
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
@@ -80,6 +86,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
             if(isset($_SESSION['user_id']) && isset($_SESSION['ten_khach_hang'])) {
                 echo '<li><a class="dropdown-item" href="thongtinkhachhangchitiet.php">Thông Tin Cá Nhân</a></li>';
                 echo '<li><a class="dropdown-item" href="giohang.php">Giỏ Hàng Của Bạn</a></li>';
+                echo '<li><a class="dropdown-item" href="donhang.php">Đơn hàng của bạn</a></li>';
                 echo '<li><a class="dropdown-item" href="logout.php">Đăng xuất</a></li>';
             } else {
                 echo '<li><a class="dropdown-item" href="dangki.php">Đăng ký</a></li>';
@@ -95,7 +102,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
             <h1 class="display-4" style="font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">Sức Khỏe Tối Ưu - Thực Phẩm Chất Lượng</h1>
         </header>   
         
-        <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
+        <nav class="navbar navbar-expand-lg navbar-light navvitri" style="background: linear-gradient(to right, #87CEEB, #FFFFFF); border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); height: 100px;">
             <div class="container-fluid">
                 <a class="navbar-brand" href="trangchu.php" style="padding-top: 100px; transition: transform 0.2s; transform: scale(1.1);   ">
                     <img src="logo.png" alt="Logo" style="width: 200px; height: auto;">
@@ -282,7 +289,7 @@ session_start(); // Đảm bảo session đã được bắt đầu
         <br>
         <br>
         <br>
-        <br>
+        <br>    
         <br>
         <br>
         <br>
