@@ -27,6 +27,12 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `binh_luan`
 --
 
+<<<<<<< HEAD
+CREATE DATABASE IF NOT EXISTS `thuc_pham_chuc_nang`;
+USE `thuc_pham_chuc_nang`;
+
+
+=======
 CREATE TABLE `binh_luan` (
   `id` int(11) NOT NULL,
   `id_khach_hang` int(11) NOT NULL,
@@ -85,6 +91,7 @@ CREATE TABLE `gio_hang` (
 --
 -- Cấu trúc bảng cho bảng `khach_hang`
 --
+>>>>>>> 5886f05a2a73cb8f950d98be3f3fac68dd9f83aa
 
 CREATE TABLE `khach_hang` (
   `id` int(11) NOT NULL,
@@ -118,12 +125,38 @@ CREATE TABLE `mat_hang` (
   `gia_mat_hang` decimal(10,2) DEFAULT NULL,
   `hinh_anh` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+<<<<<<< HEAD
+
+
+
+CREATE TABLE `gio_hang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_khach_hang` int(11) NOT NULL,
+  `id_mat_hang` int(11) NOT NULL,
+  `so_luong` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_khach_hang_id_mat_hang` (`id_khach_hang`, `id_mat_hang`),
+  FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
+  FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- --------------------------------------------------------
+
+
+--
+-- Cấu trúc bảng cho bảng `tai_khoan_khach_hang`
+--
+
+=======
+>>>>>>> 5886f05a2a73cb8f950d98be3f3fac68dd9f83aa
 CREATE TABLE `tai_khoan_khach_hang` (
   `id` int(11) NOT NULL,
   `tai_khoan` varchar(50) DEFAULT NULL,
   `mat_khau` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+<<<<<<< HEAD
+
+=======
 --
 -- Đang đổ dữ liệu cho bảng `tai_khoan_khach_hang`
 --
@@ -247,6 +280,7 @@ ALTER TABLE `gio_hang`
 --
 -- Các ràng buộc cho bảng `khach_hang`
 --
+>>>>>>> 5886f05a2a73cb8f950d98be3f3fac68dd9f83aa
 ALTER TABLE `khach_hang`
   ADD CONSTRAINT `khach_hang_ibfk_1` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoan_khach_hang` (`id`);
 COMMIT;
