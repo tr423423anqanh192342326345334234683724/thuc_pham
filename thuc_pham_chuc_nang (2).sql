@@ -27,17 +27,18 @@ SET time_zone = "+00:00";
 -- Cấu trúc bảng cho bảng `binh_luan`
 --
 
-<<<<<<< HEAD
+
 CREATE DATABASE IF NOT EXISTS `thuc_pham_chuc_nang`;
 USE `thuc_pham_chuc_nang`;
 
-
-=======
 CREATE TABLE `binh_luan` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_khach_hang` int(11) NOT NULL,
   `ten_khach_hang` varchar(100) NOT NULL,
-  `noi_dung` text NOT NULL
+  `noi_dung` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_khach_hang` (`id_khach_hang`),
+  CONSTRAINT `binh_luan_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -55,13 +56,18 @@ INSERT INTO `binh_luan` (`id`, `id_khach_hang`, `ten_khach_hang`, `noi_dung`) VA
 --
 
 CREATE TABLE `don_hang` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_khach_hang` int(11) NOT NULL,
   `id_mat_hang` int(11) NOT NULL,
   `so_luong` int(11) NOT NULL,
   `tong_tien` decimal(10,2) NOT NULL,
   `ngay_dat_hang` datetime DEFAULT current_timestamp(),
-  `trang_thai` varchar(50) DEFAULT 'Chờ xác nhận'
+  `trang_thai` varchar(50) DEFAULT 'Chờ xác nhận',
+  PRIMARY KEY (`id`),
+  KEY `id_khach_hang` (`id_khach_hang`),
+  KEY `id_mat_hang` (`id_mat_hang`),
+  CONSTRAINT `don_hang_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
+  CONSTRAINT `don_hang_ibfk_2` FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -79,11 +85,17 @@ INSERT INTO `don_hang` (`id`, `id_khach_hang`, `id_mat_hang`, `so_luong`, `tong_
 --
 
 CREATE TABLE `gio_hang` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_khach_hang` int(11) NOT NULL,
   `id_mat_hang` int(11) NOT NULL,
   `so_luong` int(11) NOT NULL,
-  `ngay_them` timestamp NOT NULL DEFAULT current_timestamp()
+  `ngay_them` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_khach_hang_id_mat_hang` (`id_khach_hang`, `id_mat_hang`),
+  KEY `id_khach_hang` (`id_khach_hang`),
+  KEY `id_mat_hang` (`id_mat_hang`),
+  CONSTRAINT `gio_hang_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
+  CONSTRAINT `gio_hang_ibfk_2` FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -91,15 +103,18 @@ CREATE TABLE `gio_hang` (
 --
 -- Cấu trúc bảng cho bảng `khach_hang`
 --
->>>>>>> 5886f05a2a73cb8f950d98be3f3fac68dd9f83aa
+
 
 CREATE TABLE `khach_hang` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_tai_khoan` int(11) DEFAULT NULL,
   `ten_khach_hang` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `so_dien_thoai` varchar(20) DEFAULT NULL,
-  `dia_chi` varchar(255) DEFAULT NULL
+  `dia_chi` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_tai_khoan` (`id_tai_khoan`),
+  CONSTRAINT `khach_hang_ibfk_1` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoan_khach_hang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -117,46 +132,30 @@ INSERT INTO `khach_hang` (`id`, `id_tai_khoan`, `ten_khach_hang`, `email`, `so_d
 --
 
 CREATE TABLE `mat_hang` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `loai_mat_hang` varchar(100) DEFAULT NULL,
   `ten_mat_hang` varchar(100) DEFAULT NULL,
   `cong_dung_mat_hang` text DEFAULT NULL,
   `so_luong` int(11) DEFAULT NULL,
   `gia_mat_hang` decimal(10,2) DEFAULT NULL,
-  `hinh_anh` blob NOT NULL
+  `hinh_anh` blob NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-<<<<<<< HEAD
 
-
-
-CREATE TABLE `gio_hang` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_khach_hang` int(11) NOT NULL,
-  `id_mat_hang` int(11) NOT NULL,
-  `so_luong` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_khach_hang_id_mat_hang` (`id_khach_hang`, `id_mat_hang`),
-  FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
-  FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- --------------------------------------------------------
-
 
 --
 -- Cấu trúc bảng cho bảng `tai_khoan_khach_hang`
 --
 
-=======
->>>>>>> 5886f05a2a73cb8f950d98be3f3fac68dd9f83aa
 CREATE TABLE `tai_khoan_khach_hang` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `tai_khoan` varchar(50) DEFAULT NULL,
-  `mat_khau` varchar(255) DEFAULT NULL
+  `mat_khau` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tai_khoan` (`tai_khoan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Đang đổ dữ liệu cho bảng `tai_khoan_khach_hang`
 --
@@ -165,53 +164,6 @@ INSERT INTO `tai_khoan_khach_hang` (`id`, `tai_khoan`, `mat_khau`) VALUES
 (1, 'admin', 'admin'),
 (2, 'anh', '$2y$10$xCFx9EyWRj.WQzlLun1WaO5SwCux9B0GKqmxOf5VKDDwnrxGb1JZe'),
 (3, '0382666331', '$2y$10$kzou/2leJFCyU4ScurQGcu2VhDnYStzdToj/nr07QyqjJw31eY2ma');
-
---
--- Chỉ mục cho các bảng đã đổ
---
-
---
--- Chỉ mục cho bảng `binh_luan`
---
-ALTER TABLE `binh_luan`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_khach_hang` (`id_khach_hang`);
-
---
--- Chỉ mục cho bảng `don_hang`
---
-ALTER TABLE `don_hang`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_khach_hang` (`id_khach_hang`),
-  ADD KEY `id_mat_hang` (`id_mat_hang`);
-
---
--- Chỉ mục cho bảng `gio_hang`
---
-ALTER TABLE `gio_hang`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_khach_hang` (`id_khach_hang`),
-  ADD KEY `id_mat_hang` (`id_mat_hang`);
-
---
--- Chỉ mục cho bảng `khach_hang`
---
-ALTER TABLE `khach_hang`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_tai_khoan` (`id_tai_khoan`);
-
---
--- Chỉ mục cho bảng `mat_hang`
---
-ALTER TABLE `mat_hang`
-  ADD PRIMARY KEY (`id`);
-
---
--- Chỉ mục cho bảng `tai_khoan_khach_hang`
---
-ALTER TABLE `tai_khoan_khach_hang`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `tai_khoan` (`tai_khoan`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -253,36 +205,6 @@ ALTER TABLE `mat_hang`
 ALTER TABLE `tai_khoan_khach_hang`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- Các ràng buộc cho các bảng đã đổ
---
-
---
--- Các ràng buộc cho bảng `binh_luan`
---
-ALTER TABLE `binh_luan`
-  ADD CONSTRAINT `binh_luan_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`);
-
---
--- Các ràng buộc cho bảng `don_hang`
---
-ALTER TABLE `don_hang`
-  ADD CONSTRAINT `don_hang_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
-  ADD CONSTRAINT `don_hang_ibfk_2` FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`);
-
---
--- Các ràng buộc cho bảng `gio_hang`
---
-ALTER TABLE `gio_hang`
-  ADD CONSTRAINT `gio_hang_ibfk_1` FOREIGN KEY (`id_khach_hang`) REFERENCES `khach_hang` (`id`),
-  ADD CONSTRAINT `gio_hang_ibfk_2` FOREIGN KEY (`id_mat_hang`) REFERENCES `mat_hang` (`id`);
-
---
--- Các ràng buộc cho bảng `khach_hang`
---
->>>>>>> 5886f05a2a73cb8f950d98be3f3fac68dd9f83aa
-ALTER TABLE `khach_hang`
-  ADD CONSTRAINT `khach_hang_ibfk_1` FOREIGN KEY (`id_tai_khoan`) REFERENCES `tai_khoan_khach_hang` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
