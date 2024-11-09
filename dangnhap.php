@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Chuyển hướng đến trang chủ trangchu.php
                 header('Location: trangchu.php');
                 exit();
-            } 
+            }   
             elseif ($tai_khoan == 'admin' && $mat_khau == 'admin') {
                 header('Location: admin.php');
                 exit();

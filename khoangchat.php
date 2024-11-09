@@ -187,7 +187,7 @@
                     $imageData = base64_encode($imageData);
                     echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" class="img-fluid" style="width: 200px; height: 200px;">';
                 } else {
-                        echo '<img src="vitamin.jpg" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
+                        echo '<img src="sk.png" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
                     }
                    ?>
                     <h5 class="card-title"><?php echo htmlspecialchars($product['ten_mat_hang']); ?></h5>

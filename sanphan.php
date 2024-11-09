@@ -216,7 +216,7 @@
                 $imageData = base64_encode($row['hinh_anh']);
                 echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" style="width: 300px; height: auto;">';
             } else {
-                echo '<p>Không có hình ảnh</p>';
+                echo '<img src="sk.png" alt="Hình ảnh mặc định" class="img-fluid" style="width: 200px; height: 200px;">';
             }
             // Thay đổi nút chi tiết để dẫn đến trang sản phẩm cụ thể
             echo"<br>";

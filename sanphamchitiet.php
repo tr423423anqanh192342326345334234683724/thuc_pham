@@ -235,11 +235,11 @@
                     if (!empty($row['hinh_anh'])) {
                         $imageData = base64_encode($row['hinh_anh']);
                         echo '<img src="data:image/jpeg;base64,' . $imageData . '" alt="Hình ảnh sản phẩm" style="width: 200px; height: 200px;">';
-                
-                        echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
+                        
                     } else {
-                        echo '<p>Không có hình ảnh</p>';
+                        echo '<img src="sk.png" alt="Hình ảnh sản phẩm" style="width: 200px; height: 200px;">';
                     }
+                    echo "<button style='background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;'><a href='sanphamchitiet.php?id=" . $row['id'] . "' style='text-decoration: none; color: white; font-weight: bold;'>Chi tiết</a></button>";
                     echo "</div>";
                 }
             } else {
